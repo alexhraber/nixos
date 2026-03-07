@@ -115,12 +115,12 @@ in
       layer: Overlay,
       hide_plugin_info: true,
       close_on_click: false,
-      show_results_immediately: false,
+      show_results_immediately: true,
       max_entries: Some(8),
     )
   '';
 
-  xdg.configFile."anyrun/apps.ron".text = ''
+  xdg.configFile."anyrun/applications.ron".text = ''
     Config(
       desktop_actions: false,
       max_entries: Some(5),
@@ -134,16 +134,22 @@ in
     )
   '';
 
+  xdg.configFile."anyrun/nix_run.ron".text = ''
+    Config(
+      prefix: ":nix ",
+      max_entries: 3,
+      shell: "bash",
+    )
+  '';
+
   xdg.configFile."anyrun/style.css".text = ''
     * {
-      all: unset;
       font-family: "Source Code Pro", monospace;
       font-size: 15px;
       color: #e6edf7;
-      transition: 120ms ease;
     }
 
-    #window {
+    window, #window {
       background: rgba(17, 21, 29, 0.97);
       border: 1px solid rgba(42, 52, 71, 0.95);
       border-radius: 16px;
@@ -151,7 +157,7 @@ in
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
     }
 
-    #entry {
+    entry, #entry {
       background: rgba(30, 38, 54, 0.9);
       border: 1px solid rgba(42, 52, 71, 1.0);
       border-radius: 10px;
@@ -161,7 +167,7 @@ in
       font-size: 16px;
     }
 
-    #entry:focus {
+    entry:focus, #entry:focus {
       border-color: rgba(124, 92, 255, 0.6);
     }
 
@@ -187,13 +193,8 @@ in
       padding: 2px 10px;
     }
 
-    #match {
-      font-weight: bold;
-    }
-
-    #info {
-      color: #94a3b8;
-      font-size: 13px;
+    label {
+      color: #e6edf7;
     }
 
     image {
