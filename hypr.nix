@@ -152,7 +152,7 @@ in
     "$mod, SPACE, exec, $menu"
     "$mod, B, exec, ${browser}"
     "$mod, E, exec, ${fileManager}"
-    "$mod SHIFT, L, exec, hyprlock"
+    "$mod, L, exec, hyprlock"
     "$mod SHIFT, T, exec, ${terminal} -e btop"
 
     # Window management
