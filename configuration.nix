@@ -197,6 +197,7 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "bak";
   home-manager.users.arx = import ./home.nix;
 
   system.stateVersion = "25.11";
