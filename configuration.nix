@@ -172,6 +172,18 @@
 
   security.rtkit.enable = true;
 
+  security.sudo.extraRules = [
+    {
+      users = [ "arx" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   users.users.arx = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" ];
