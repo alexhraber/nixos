@@ -27,6 +27,7 @@ window#waybar {
   padding: 4px 10px;
   margin: 0 3px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: all 0.15s ease;
 }
 
 #custom-launcher {
@@ -70,9 +71,18 @@ window#waybar {
   padding-right: 14px;
 }
 
-#custom-notifications:hover,
-#custom-net:hover {
-  background: rgba(255, 255, 255, 0.06);
+#custom-launcher:hover,
+#workspaces:hover,
+#clock:hover,
+#custom-net:hover,
+#bluetooth:hover,
+#custom-cpu:hover,
+#custom-memory:hover,
+#pulseaudio:hover,
+#custom-notifications:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(124, 92, 255, 0.35);
+  transition: all 0.15s ease;
 }
 
 #custom-net {
