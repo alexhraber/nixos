@@ -14,7 +14,7 @@
   "custom/launcher": {
     "format": "",
     "tooltip": false,
-    "on-click": "rofi -show combi -combi-modes drun,calc -modes combi,calc -show-icons"
+    "on-click": "rofi -show combi"
   },
 
   "hyprland/workspaces": {

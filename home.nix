@@ -40,7 +40,6 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
-    rofi
     rofi-calc
   ];
 
@@ -100,6 +99,114 @@ in
     enable = true;
     style = builtins.readFile ./wofi/style.css;
   };
+
+  programs.rofi = {
+    enable = true;
+    package = pkgs.rofi;
+    plugins = [ pkgs.rofi-calc ];
+    terminal = "ghostty";
+    theme = "~/.config/rofi/theme.rasi";
+    extraConfig = {
+      modi = "combi,drun,calc";
+      combi-modi = "drun,calc";
+      show-icons = true;
+      icon-theme = "Adwaita";
+      drun-display-format = "{name}";
+      calc-command = "echo -n '{result}' | wl-copy";
+      display-combi = "";
+      display-drun = " Apps";
+      display-calc = " Calc";
+    };
+  };
+
+  xdg.configFile."rofi/theme.rasi".text = ''
+    * {
+      bg:      rgba(17,21,29,0.96);
+      bg-alt:  rgba(30,38,54,0.98);
+      border:  rgba(42,52,71,1);
+      accent:  rgba(124,92,255,1);
+      accent2: rgba(66,199,255,1);
+      fg:      rgba(230,237,247,1);
+      fg-dim:  rgba(148,163,184,1);
+      urgent:  rgba(255,107,129,1);
+      background-color: transparent;
+      text-color: @fg;
+      font: "Source Code Pro 14";
+    }
+
+    window {
+      background-color: @bg;
+      border: 2px;
+      border-color: @border;
+      border-radius: 16px;
+      width: 640px;
+      padding: 12px;
+    }
+
+    mainbox {
+      spacing: 8px;
+    }
+
+    inputbar {
+      background-color: @bg-alt;
+      border: 1px;
+      border-color: @border;
+      border-radius: 10px;
+      padding: 10px 14px;
+      spacing: 8px;
+      children: [prompt, entry];
+    }
+
+    prompt {
+      text-color: @accent;
+    }
+
+    entry {
+      placeholder = "search apps or calculate...";
+      placeholder-color: @fg-dim;
+    }
+
+    listview {
+      lines = 8;
+      spacing: 4px;
+      scrollbar: false;
+    }
+
+    element {
+      border-radius: 8px;
+      padding: 8px 12px;
+      spacing: 10px;
+      children: [element-icon, element-text];
+    }
+
+    element normal.normal {
+      background-color: transparent;
+    }
+
+    element selected.normal {
+      background-color: rgba(124,92,255,0.18);
+    }
+
+    element-icon {
+      size: 22px;
+    }
+
+    element-text {
+      vertical-align: 0.5;
+    }
+
+    element-text selected {
+      text-color: @fg;
+    }
+
+    message {
+      background-color: @bg-alt;
+      border: 1px;
+      border-color: @border;
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+  '';
 
   programs.ghostty = {
     enable = true;
