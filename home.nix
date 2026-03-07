@@ -108,7 +108,7 @@ in
         "${anyrun}/lib/librink.so",
       ],
       width: Fraction(0.38),
-      y_offset: 20,
+      y_offset: 220,
       x_offset: 0,
       hide_icons: false,
       ignore_exclusive_zones: false,
@@ -116,7 +116,7 @@ in
       hide_plugin_info: true,
       close_on_click: false,
       show_results_immediately: true,
-      max_entries: Some(8),
+      max_entries: Some(16),
     )
   '';
 
