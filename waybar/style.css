@@ -47,7 +47,8 @@ window#waybar {
   margin: 3px 3px;
 }
 
-#workspaces button.active {
+#workspaces button.active,
+#workspaces button:checked {
   color: #ffffff;
   background: linear-gradient(90deg, #7c5cff, #42c7ff);
 }

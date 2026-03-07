@@ -81,6 +81,7 @@
     usbutils
     pciutils
     lm_sensors
+    iftop
 
     git
     gh
@@ -178,6 +179,10 @@
       commands = [
         {
           command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/iftop";
           options = [ "NOPASSWD" ];
         }
       ];

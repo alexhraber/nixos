@@ -162,12 +162,12 @@ in
     }
 
     entry {
-      placeholder = "search apps or calculate...";
+      placeholder: "search apps or calculate...";
       placeholder-color: @fg-dim;
     }
 
     listview {
-      lines = 8;
+      lines: 8;
       spacing: 4px;
       scrollbar: false;
     }

@@ -21,6 +21,9 @@
     "disable-scroll": false,
     "all-outputs": true,
     "format": "{icon}",
+    "persistent-workspaces": {
+      "*": 9
+    },
     "format-icons": {
       "1": "",
       "2": "󰈹",
@@ -43,7 +46,8 @@
     "interval": 3,
     "format": "{}",
     "tooltip": true,
-    "on-click": "nm-connection-editor"
+    "on-click": "nm-connection-editor",
+    "on-click-right": "ghostty -e sudo iftop"
   },
 
   "bluetooth": {
@@ -68,7 +72,7 @@
     "interval": 5,
     "format": "{}",
     "tooltip": true,
-    "on-click": "ghostty -e btop --preset memory"
+    "on-click": "ghostty -e btop"
   },
 
   "pulseaudio": {
