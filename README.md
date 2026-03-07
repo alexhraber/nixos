@@ -1,4 +1,3 @@
-````markdown
 # nixos
 
 NixOS system configuration for `cube`.
@@ -37,4 +36,3 @@ sudo nixos-rebuild switch
 - This repository is meant for this host’s real system configuration.
 - Changes made here affect the live machine after rebuild.
 - Commit carefully.
-````
