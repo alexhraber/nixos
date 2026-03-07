@@ -104,7 +104,7 @@ in
   xdg.configFile."anyrun/config.ron".text = ''
     Config(
       plugins: [
-        "${anyrun}/lib/libapps.so",
+        "${anyrun}/lib/libapplications.so",
         "${anyrun}/lib/librink.so",
       ],
       width: Fraction(0.38),
