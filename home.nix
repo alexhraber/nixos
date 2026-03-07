@@ -17,7 +17,6 @@
     nautilus
     waybar
     wofi
-    mako
     swaybg
     hyprlock
     hypridle
@@ -344,7 +343,7 @@
           "key": "󰋊"
         },
         {
-        "type": "localip",
+          "type": "localip",
           "key": "󰩟"
         },
         {
@@ -363,23 +362,7 @@
     }
   '';
 
-  services.mako = {
-    enable = true;
-    settings = {
-      background-color = "#11151ddd";
-      text-color = "#e6edf7ff";
-      border-color = "#7c5cffff";
-      progress-color = "over #7c5cffff";
-      border-radius = 16;
-      border-size = 2;
-      default-timeout = 5000;
-      padding = "14";
-      margin = "12";
-      width = 420;
-      height = 120;
-      font = "Source Code Pro 12";
-    };
-  };
+  services.swaync.enable = true;
 
   services.hypridle = {
     enable = true;

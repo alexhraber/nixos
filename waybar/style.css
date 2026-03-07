@@ -13,31 +13,31 @@ window#waybar {
 #custom-launcher,
 #workspaces,
 #clock,
-#tray,
-#network,
+#custom-network,
 #bluetooth,
 #pulseaudio,
 #backlight,
 #cpu,
 #memory,
-#battery {
+#battery,
+#custom-notifications {
   background: rgba(17, 21, 29, 0.84);
   border: 1px solid rgba(42, 52, 71, 0.95);
   border-radius: 14px;
-  padding: 4px 12px;
-  margin: 0 6px;
+  padding: 4px 10px;
+  margin: 0 3px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
 #custom-launcher {
   color: #7c5cff;
   font-size: 18px;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 #workspaces {
-  padding: 2px 8px;
+  padding: 2px 6px;
 }
 
 #workspaces button {
@@ -59,11 +59,21 @@ window#waybar {
 
 #clock {
   font-weight: 700;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
-#network.disconnected,
+#custom-notifications:hover,
+#custom-network:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+#pulseaudio,
+#cpu,
+#memory {
+  min-width: 88px;
+}
+
 #pulseaudio.muted,
 #battery.warning,
 #battery.critical {

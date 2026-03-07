@@ -1,6 +1,11 @@
 # /etc/nixos/nushell/custom.nu
 
-$env.PATH = ($env.PATH | prepend "~/.npm-global/bin")
+$env.PATH = ($env.PATH | prepend [
+  $"($env.HOME)/.opencode/bin"
+  $"($env.HOME)/.local/bin"
+  $"($env.HOME)/.npm-global/bin"
+  $"($env.HOME)/bin"
+])
 
 $env.GPG_TTY = (tty)
 ^stty sane

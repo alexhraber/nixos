@@ -35,6 +35,7 @@
     waybar
     mako
     swaybg
+    swaynotificationcenter
     hyprlock
     hypridle
     wl-clipboard
