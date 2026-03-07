@@ -26,7 +26,8 @@ if command -v sensors &>/dev/null; then
     | grep -E "^(Package id [0-9]+|Tdie|Tctl|temp1):" \
     | head -1 \
     | grep -oP '\+\K[0-9]+\.[0-9]+' \
-    | awk '{printf "%.1f", $1 * 9/5 + 32}')
+    | head -1 \
+    | awk '{printf "%.0f", $1 * 9/5 + 32}')
 fi
 
 # Per-core usage — collect into arrays

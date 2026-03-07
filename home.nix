@@ -4,6 +4,7 @@ let
   waybar-cpu = pkgs.writeShellScriptBin "waybar-cpu" (builtins.readFile ./waybar/scripts/cpu.sh);
   waybar-mem = pkgs.writeShellScriptBin "waybar-mem" (builtins.readFile ./waybar/scripts/mem.sh);
   waybar-net = pkgs.writeShellScriptBin "waybar-net" (builtins.readFile ./waybar/scripts/net.sh);
+  anyrun = pkgs.anyrun;
 in
 {
   home.stateVersion = "25.11";
@@ -40,6 +41,7 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
+    anyrun
   ];
 
   home.sessionVariables = {
@@ -99,111 +101,103 @@ in
     style = builtins.readFile ./wofi/style.css;
   };
 
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi.override { plugins = [ pkgs.rofi-calc ]; };
-    terminal = "ghostty";
-    theme = "~/.config/rofi/theme.rasi";
-    extraConfig = {
-      modi = "combi,drun,calc";
-      combi-modi = "drun,calc";
-      show-icons = true;
-      icon-theme = "Adwaita";
-      drun-display-format = "{name}";
-      calc-command = "echo -n '{result}' | wl-copy";
-      no-history = true;
-      display-combi = "";
-      display-drun = " Apps";
-      display-calc = " Calc";
-    };
-  };
+  xdg.configFile."anyrun/config.ron".text = ''
+    Config(
+      plugins: [
+        "${anyrun}/lib/libapps.so",
+        "${anyrun}/lib/librink.so",
+      ],
+      width: Fraction(0.38),
+      y_offset: 20,
+      x_offset: 0,
+      hide_icons: false,
+      ignore_exclusive_zones: false,
+      layer: Overlay,
+      hide_plugin_info: true,
+      close_on_click: false,
+      show_results_immediately: false,
+      max_entries: Some(8),
+    )
+  '';
 
-  xdg.configFile."rofi/theme.rasi".text = ''
+  xdg.configFile."anyrun/apps.ron".text = ''
+    Config(
+      desktop_actions: false,
+      max_entries: Some(5),
+      terminal: Some("ghostty"),
+    )
+  '';
+
+  xdg.configFile."anyrun/rink.ron".text = ''
+    Config(
+      max_entries: Some(3),
+    )
+  '';
+
+  xdg.configFile."anyrun/style.css".text = ''
     * {
-      bg:      rgba(17,21,29,0.96);
-      bg-alt:  rgba(30,38,54,0.98);
-      border:  rgba(42,52,71,1);
-      accent:  rgba(124,92,255,1);
-      accent2: rgba(66,199,255,1);
-      fg:      rgba(230,237,247,1);
-      fg-dim:  rgba(148,163,184,1);
-      urgent:  rgba(255,107,129,1);
-      background-color: transparent;
-      text-color: @fg;
-      font: "Source Code Pro 14";
+      all: unset;
+      font-family: "Source Code Pro", monospace;
+      font-size: 15px;
+      color: #e6edf7;
+      transition: 120ms ease;
     }
 
-    window {
-      background-color: @bg;
-      border: 2px;
-      border-color: @border;
+    #window {
+      background: rgba(17, 21, 29, 0.97);
+      border: 1px solid rgba(42, 52, 71, 0.95);
       border-radius: 16px;
-      width: 640px;
-      padding: 12px;
+      padding: 10px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
     }
 
-    mainbox {
-      spacing: 8px;
-    }
-
-    inputbar {
-      background-color: @bg-alt;
-      border: 1px;
-      border-color: @border;
+    #entry {
+      background: rgba(30, 38, 54, 0.9);
+      border: 1px solid rgba(42, 52, 71, 1.0);
       border-radius: 10px;
       padding: 10px 14px;
-      spacing: 8px;
-      children: [prompt, entry];
+      margin: 4px 4px 8px 4px;
+      color: #e6edf7;
+      font-size: 16px;
     }
 
-    prompt {
-      text-color: @accent;
+    #entry:focus {
+      border-color: rgba(124, 92, 255, 0.6);
     }
 
-    entry {
-      placeholder: "search apps or calculate...";
-      placeholder-color: @fg-dim;
+    list {
+      background: transparent;
     }
 
-    listview {
-      lines: 8;
-      spacing: 4px;
-      scrollbar: false;
+    row {
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: transparent;
+      margin: 1px 4px;
     }
 
-    element {
-      border-radius: 8px;
-      padding: 8px 12px;
-      spacing: 10px;
-      children: [element-icon, element-text];
+    row:selected {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.28) 0%, rgba(66, 199, 255, 0.14) 100%);
+      border: 1px solid rgba(124, 92, 255, 0.38);
     }
 
-    element normal.normal {
-      background-color: transparent;
+    #plugin {
+      color: rgba(124, 92, 255, 0.6);
+      font-size: 11px;
+      padding: 2px 10px;
     }
 
-    element selected.normal {
-      background-color: rgba(124,92,255,0.18);
+    #match {
+      font-weight: bold;
     }
 
-    element-icon {
-      size: 22px;
+    #info {
+      color: #94a3b8;
+      font-size: 13px;
     }
 
-    element-text {
-      vertical-align: 0.5;
-    }
-
-    element-text selected {
-      text-color: @fg;
-    }
-
-    message {
-      background-color: @bg-alt;
-      border: 1px;
-      border-color: @border;
-      border-radius: 8px;
-      padding: 8px 12px;
+    image {
+      margin-right: 8px;
     }
   '';
 

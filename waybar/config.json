@@ -14,7 +14,7 @@
   "custom/launcher": {
     "format": "",
     "tooltip": false,
-    "on-click": "rofi -show combi"
+    "on-click": "anyrun"
   },
 
   "hyprland/workspaces": {

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Network: inline ⬇/⬆ speeds + SSID, hover shows full details
+# Network: inline ⬇/⬆ speeds + SSID, hover shows full hacker-style details
 
 STATE_DIR=/tmp/waybar_net
 mkdir -p "$STATE_DIR"
@@ -27,7 +27,7 @@ fi
 IFACE="${WIFI_IFACE:-$ETH_IFACE}"
 
 if [[ -z "$IFACE" ]]; then
-  jq -cn '{text:"󰤭  no signal",tooltip:"Disconnected",class:"disconnected"}'
+  jq -cn '{text:"󰤭  no signal",tooltip:"disconnected",class:"disconnected"}'
   exit
 fi
 
@@ -49,38 +49,82 @@ if [[ -f "$STATE" ]]; then
 fi
 echo "$RX_NOW $TX_NOW $NOW" > "$STATE"
 
-fmt_bytes() {
+fmt_rate() {
   local b=$1
-  if   [[ $b -ge 1048576 ]]; then printf "%d.%dM" $(( b/1048576 )) $(( (b%1048576)*10/1048576 ))
-  elif [[ $b -ge 1024    ]]; then printf "%dK"     $(( b/1024 ))
-  else                            printf "%dB"     "$b"
+  if   [[ $b -ge 1048576 ]]; then printf "%d.%dM/s" $(( b/1048576 )) $(( (b%1048576)*10/1048576 ))
+  elif [[ $b -ge 1024    ]]; then printf "%dK/s"     $(( b/1024 ))
+  else                            printf "%dB/s"     "$b"
   fi
 }
 
-fmt_bytes_long() {
+fmt_total() {
   local b=$1
-  if   [[ $b -ge 1048576 ]]; then printf "%d.%d MB/s" $(( b/1048576 )) $(( (b%1048576)*10/1048576 ))
-  elif [[ $b -ge 1024    ]]; then printf "%d KB/s"     $(( b/1024 ))
-  else                            printf "%d B/s"      "$b"
+  if   [[ $b -ge 1073741824 ]]; then printf "%d.%dGB" $(( b/1073741824 )) $(( (b%1073741824)*10/1073741824 ))
+  elif [[ $b -ge 1048576    ]]; then printf "%dMB"     $(( b/1048576 ))
+  elif [[ $b -ge 1024       ]]; then printf "%dKB"     $(( b/1024 ))
+  else                               printf "%dB"      "$b"
   fi
 }
 
 IP=$(ip -4 addr show "$IFACE" 2>/dev/null | awk '/inet /{print $2}' | head -1)
-RX_S=$(fmt_bytes "$RX_RATE")
-TX_S=$(fmt_bytes "$TX_RATE")
-RX_L=$(fmt_bytes_long "$RX_RATE")
-TX_L=$(fmt_bytes_long "$TX_RATE")
+GW=$(ip route show default 2>/dev/null | awk '/default via/{print $3; exit}')
+MAC=$(cat "/sys/class/net/$IFACE/address" 2>/dev/null)
+DNS=$(grep "^nameserver" /etc/resolv.conf 2>/dev/null | awk '{printf "%s  ", $2}' | sed 's/  $//')
+RX_S=$(fmt_rate "$RX_RATE")
+TX_S=$(fmt_rate "$TX_RATE")
+RX_TOT=$(fmt_total "$RX_NOW")
+TX_TOT=$(fmt_total "$TX_NOW")
 
 if [[ -n "$WIFI_IFACE" ]]; then
+  # WiFi signal strength
+  SIGNAL_DBM=$(iw dev "$WIFI_IFACE" link 2>/dev/null | grep -oP 'signal: \K[-0-9]+')
+  FREQ_MHZ=$(iw dev "$WIFI_IFACE" link 2>/dev/null | grep -oP 'freq: \K[0-9]+')
+  BITRATE=$(iw dev "$WIFI_IFACE" link 2>/dev/null | grep -oP 'tx bitrate: \K[0-9.]+ [A-Z]+')
+
+  # Signal bar
+  if [[ -n "$SIGNAL_DBM" ]]; then
+    if   [[ $SIGNAL_DBM -ge -50 ]]; then SIG_BAR="▂▄▆█" SIG_QUAL="excellent"
+    elif [[ $SIGNAL_DBM -ge -60 ]]; then SIG_BAR="▂▄▆░" SIG_QUAL="good"
+    elif [[ $SIGNAL_DBM -ge -70 ]]; then SIG_BAR="▂▄░░" SIG_QUAL="fair"
+    elif [[ $SIGNAL_DBM -ge -80 ]]; then SIG_BAR="▂░░░" SIG_QUAL="weak"
+    else                                  SIG_BAR="░░░░" SIG_QUAL="poor"
+    fi
+    SIG_STR="$SIG_BAR  ${SIGNAL_DBM} dBm  (${SIG_QUAL})"
+  else
+    SIG_STR="n/a"
+  fi
+
+  # Frequency band
+  if [[ -n "$FREQ_MHZ" ]]; then
+    FREQ_GHZ=$(awk "BEGIN{printf \"%.2f\", $FREQ_MHZ/1000}")
+    BAND="${FREQ_GHZ} GHz"
+  else
+    BAND=""
+  fi
+
   TEXT="󰤨  ${SSID}  ⬇${RX_S} ⬆${TX_S}"
-  TOOLTIP="$(printf "  %-12s %s\n  %-12s %s\n  %-12s %s\n\n  ⬇ %-10s %s\n  ⬆ %-10s %s" \
-    "SSID:" "$SSID" "Interface:" "$IFACE" "IP:" "${IP:-n/a}" \
-    "Down:" "$RX_L" "Up:" "$TX_L")"
+  TOOLTIP="$(printf " %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s" \
+    "ssid" "$SSID" \
+    "iface" "$IFACE" \
+    "ip" "${IP:-n/a}" \
+    "gateway" "${GW:-n/a}" \
+    "mac" "${MAC:-n/a}")"
+  [[ -n "$DNS" ]]  && TOOLTIP+="$(printf "\n %-14s %s" "dns" "$DNS")"
+  [[ -n "$SIG_STR" ]] && TOOLTIP+="$(printf "\n %-14s %s" "signal" "$SIG_STR")"
+  [[ -n "$BAND" ]]  && TOOLTIP+="$(printf "\n %-14s %s" "band" "$BAND")"
+  [[ -n "$BITRATE" ]] && TOOLTIP+="$(printf "\n %-14s %s" "link rate" "$BITRATE")"
+  TOOLTIP+="$(printf "\n\n %-14s ⬇ %-12s ⬆ %s" "rate" "$RX_S" "$TX_S")"
+  TOOLTIP+="$(printf "\n %-14s ⬇ %-12s ⬆ %s" "session" "$RX_TOT" "$TX_TOT")"
 else
   TEXT="󰈀  ${IFACE}  ⬇${RX_S} ⬆${TX_S}"
-  TOOLTIP="$(printf "  %-12s %s\n  %-12s %s\n\n  ⬇ %-10s %s\n  ⬆ %-10s %s" \
-    "Interface:" "$IFACE" "IP:" "${IP:-n/a}" \
-    "Down:" "$RX_L" "Up:" "$TX_L")"
+  TOOLTIP="$(printf " %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s" \
+    "iface" "$IFACE" \
+    "ip" "${IP:-n/a}" \
+    "gateway" "${GW:-n/a}" \
+    "mac" "${MAC:-n/a}" \
+    "dns" "${DNS:-n/a}")"
+  TOOLTIP+="$(printf "\n\n %-14s ⬇ %-12s ⬆ %s" "rate" "$RX_S" "$TX_S")"
+  TOOLTIP+="$(printf "\n %-14s ⬇ %-12s ⬆ %s" "session" "$RX_TOT" "$TX_TOT")"
 fi
 
 jq -cn --arg t "$TEXT" --arg tt "$TOOLTIP" '{text:$t,tooltip:$tt}'

@@ -2,7 +2,7 @@
 
 let
   terminal = "ghostty";
-  launcher = "rofi -show combi";
+  launcher = "anyrun";
   browser = "chromium";
   fileManager = "nautilus";
   mod = "SUPER";
@@ -91,7 +91,7 @@ in
       "layers, 1, 4, easeOutQuint"
       "layersIn, 1, 4, easeOutQuint, fade"
       "layersOut, 1, 2, smoothIn, fade"
-      "workspaces, 1, 5, easeOutQuint, slide"
+      "workspaces, 1, 5, easeOutQuint, slidevert"
     ];
   };
 
