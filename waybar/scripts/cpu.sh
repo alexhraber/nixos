@@ -19,14 +19,13 @@ else
 fi
 echo "$c_total $c_idle" > "$STATE_DIR/total"
 
-# Per-core temps from lm_sensors (indexed by core number)
-declare -A CORE_TEMP
+# System temp from lm_sensors (AMD k10temp / Intel Package)
+SYS_TEMP=""
 if command -v sensors &>/dev/null; then
-  while IFS= read -r line; do
-    if [[ "$line" =~ ^Core[[:space:]]([0-9]+):[[:space:]].*\+([0-9]+\.[0-9]+) ]]; then
-      CORE_TEMP["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
-    fi
-  done < <(sensors -A 2>/dev/null)
+  SYS_TEMP=$(sensors 2>/dev/null \
+    | grep -E "^(Package id [0-9]+|Tdie|Tctl|temp1):" \
+    | head -1 \
+    | grep -oP '\+\K[0-9]+\.[0-9]+')
 fi
 
 # Per-core usage — collect into arrays
@@ -79,32 +78,19 @@ for (( i=0; i<n; i+=2 )); do
   li=$(( i + 1 ))
   lj=$(( j + 1 ))
   lpct=$(printf "%3d" "${CORE_PCTS[$i]}")
-  ltemp="${CORE_TEMP[${CORE_IDXS[$i]}]:-}"
-  [[ -n "$ltemp" ]] && ltemp_str="$(printf " %4.1f°" "$ltemp")" || ltemp_str="       "
-
-  left="<b>$(printf '%2d' "$li")</b> ${CORE_BARS[$i]} <b>${lpct}%</b>${ltemp_str}"
+  left="<b>$(printf '%2d' "$li")</b>  ${CORE_BARS[$i]}  <b>${lpct}%</b>"
 
   if [[ $j -lt $n ]]; then
     rpct=$(printf "%3d" "${CORE_PCTS[$j]}")
-    rtemp="${CORE_TEMP[${CORE_IDXS[$j]}]:-}"
-    [[ -n "$rtemp" ]] && rtemp_str="$(printf " %4.1f°" "$rtemp")" || rtemp_str="       "
-    right="<b>$(printf '%2d' "$lj")</b> ${CORE_BARS[$j]} <b>${rpct}%</b>${rtemp_str}"
-    CORE_LINES+="  ${left}    ${right}"$'\n'
+    right="<b>$(printf '%2d' "$lj")</b>  ${CORE_BARS[$j]}  <b>${rpct}%</b>"
+    CORE_LINES+="  ${left}      ${right}"$'\n'
   else
     CORE_LINES+="  ${left}"$'\n'
   fi
 done
 
-# Package temp
-PKG_TEMP=""
-if command -v sensors &>/dev/null; then
-  PKG_TEMP=$(sensors -A 2>/dev/null \
-    | grep -E "^(Package id|Tdie|Tctl):" \
-    | awk '{printf "%s %s\n", $1" "$2, $3}' | head -1)
-fi
-
-TOOLTIP="CPU  ${USAGE}%"
-[[ -n "$PKG_TEMP" ]] && TOOLTIP+="   Package: ${PKG_TEMP}"
+[[ -n "$SYS_TEMP" ]] && TEMP_STR="  ${SYS_TEMP}°C" || TEMP_STR=""
+TOOLTIP="CPU  ${USAGE}%${TEMP_STR}"
 if [[ -n "$CORE_LINES" ]]; then
   TOOLTIP+=$'\n\n'"Per-Core Usage"$'\n'"────────────────────────────────────────────────"$'\n'"${CORE_LINES}"
 fi

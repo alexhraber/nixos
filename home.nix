@@ -87,7 +87,7 @@ in
 
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
+    systemd.enable = false;
     settings = [
       (builtins.fromJSON (builtins.readFile ./waybar/config.json))
     ];
@@ -101,7 +101,7 @@ in
 
   programs.rofi = {
     enable = true;
-    plugins = [ pkgs.rofi-calc ];
+    package = pkgs.rofi.override { plugins = [ pkgs.rofi-calc ]; };
     terminal = "ghostty";
     theme = "~/.config/rofi/theme.rasi";
     extraConfig = {
