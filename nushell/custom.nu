@@ -41,20 +41,15 @@ def shell-level [] {
   ($env.SHLVL? | default "1" | into int)
 }
 
-# Lockfile keyed on parent PID (the terminal process) — survives shell restarts within same terminal
-def ff-lockfile [] {
-  let ppid = (open --raw $"/proc/($nu.pid)/status" | lines | where ($it | str starts-with "PPid") | first | str replace --regex 'PPid:\s+' '' | str trim)
-  $"/tmp/.ff_($ppid)"
-}
-
 if $nu.is-interactive {
   let nested_shell = ((shell-level) > 1)
   let remote_shell = (is-ssh-session)
-  let lockfile = (ff-lockfile)
-  let already_shown = ($lockfile | path exists)
+  let forced = (($env.FF_FORCE? | default "") != "")
+  let already_shown = (($env.FASTFETCH_SHOWN? | default "") != "")
 
-  if (not $nested_shell) and (not $remote_shell) and (not $already_shown) {
-    ^touch $lockfile
+  if (not $nested_shell) and (not $remote_shell) and ($forced or (not $already_shown)) {
+    $env.FF_FORCE = ""
+    $env.FASTFETCH_SHOWN = "1"
     ^stty sane
     ^reset
     if (has-command "fastfetch") { fastfetch }

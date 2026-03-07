@@ -1,6 +1,5 @@
 def src [] {
   nrs
-  let lockfile = (ff-lockfile)
-  if ($lockfile | path exists) { rm $lockfile }
+  $env.FF_FORCE = "1"
   source /etc/nixos/nushell/custom.nu
 }
