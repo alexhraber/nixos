@@ -2,6 +2,10 @@
 
 $env.PATH = ($env.PATH | prepend "~/.npm-global/bin")
 
+$env.GPG_TTY = (tty)
+^stty sane
+^reset
+
 alias ll = ls -la
 alias la = ls -a
 alias l = ls
