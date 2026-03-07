@@ -40,7 +40,7 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
-    rofi-wayland
+    rofi
     rofi-calc
   ];
 
