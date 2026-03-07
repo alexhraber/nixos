@@ -67,6 +67,7 @@
     lm_sensors
 
     git
+    gh
     gnupg
     pinentry-curses
     vim
