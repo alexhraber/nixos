@@ -87,7 +87,7 @@ in
 
   programs.waybar = {
     enable = true;
-    systemd.enable = false;
+    systemd.enable = true;
     settings = [
       (builtins.fromJSON (builtins.readFile ./waybar/config.json))
     ];

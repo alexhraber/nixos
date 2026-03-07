@@ -29,8 +29,8 @@ in
   ];
 
   exec-once = [
-    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-    "waybar"
+    "dbus-update-activation-environment --systemd --all"
+    "systemctl --user import-environment HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "swaync"
     "bash -lc 'WALL=\"$HOME/.config/wallpapers/main.png\"; if [ -f \"$WALL\" ]; then exec swaybg -i \"$WALL\" -m fill; else exec swaybg -c 0d1017; fi'"
   ];
