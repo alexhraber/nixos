@@ -21,6 +21,22 @@
     xwayland.enable = true;
   };
 
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
+
+  services.k3s = {
+    enable = true;
+    role = "server";
+  };
+
+  networking.firewall.allowedTCPPorts = [ 6443 ];
+
   environment.systemPackages = with pkgs; [
     nodejs
     rustc
@@ -96,6 +112,11 @@
     zoxide
     fastfetch
 
+    podman
+    podman-compose
+    kubectl
+    k3s
+
     bibata-cursors
     source-code-pro
     adwaita-icon-theme
@@ -153,7 +174,7 @@
 
   users.users.arx = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" ];
     shell = pkgs.nushell;
   };
 
