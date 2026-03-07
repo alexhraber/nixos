@@ -2,7 +2,7 @@
 
 let
   terminal = "ghostty";
-  launcher = "wofi --show drun";
+  launcher = "rofi -show combi -combi-modes drun,calc -modes combi,calc -show-icons";
   browser = "chromium";
   fileManager = "nautilus";
   mod = "SUPER";

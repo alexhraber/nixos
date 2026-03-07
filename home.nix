@@ -40,6 +40,8 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
+    rofi-wayland
+    rofi-calc
   ];
 
   home.sessionVariables = {
