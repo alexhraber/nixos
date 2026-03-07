@@ -13,7 +13,7 @@
             --asterisks \
             --remember \
             --remember-session \
-            --theme 'border=bright-black;text=white;prompt=white;time=bright-black;action=blue;button=white;container=black;input=white' \
+            --theme 'border=magenta;text=bright-white;prompt=cyan;time=bright-magenta;action=bright-cyan;button=bright-cyan;container=black;input=bright-green' \
             --cmd Hyprland
         '';
         user = "greeter";
