@@ -31,5 +31,5 @@ fi
 
 [[ $USAGE -gt 85 ]] && CLASS=critical || { [[ $USAGE -gt 60 ]] && CLASS=warning || CLASS=normal; }
 
-jq -cn --arg t "  ${USAGE}%" --arg tt "$TOOLTIP" --arg c "$CLASS" \
+jq -cn --arg t "  ${USAGE}%" --arg tt "$TOOLTIP" --arg c "$CLASS" \
   '{text:$t,tooltip:$tt,class:$c}'

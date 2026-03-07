@@ -45,5 +45,5 @@ fi
 
 [[ $pct -gt 85 ]] && CLASS=critical || { [[ $pct -gt 65 ]] && CLASS=warning || CLASS=normal; }
 
-jq -cn --arg t "  ${pct}%" --arg tt "$TOOLTIP" --arg c "$CLASS" \
+jq -cn --arg t "  ${pct}%" --arg tt "$TOOLTIP" --arg c "$CLASS" \
   '{text:$t,tooltip:$tt,class:$c}'
