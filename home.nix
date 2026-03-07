@@ -1,5 +1,10 @@
 { config, pkgs, lib, ... }:
 
+let
+  waybar-cpu = pkgs.writeShellScriptBin "waybar-cpu" (builtins.readFile ./waybar/scripts/cpu.sh);
+  waybar-mem = pkgs.writeShellScriptBin "waybar-mem" (builtins.readFile ./waybar/scripts/mem.sh);
+  waybar-net = pkgs.writeShellScriptBin "waybar-net" (builtins.readFile ./waybar/scripts/net.sh);
+in
 {
   home.stateVersion = "25.11";
 
@@ -30,6 +35,11 @@
     nwg-look
     yazi
     fastfetch
+    lm_sensors
+    jq
+    waybar-cpu
+    waybar-mem
+    waybar-net
   ];
 
   home.sessionVariables = {
@@ -173,7 +183,7 @@
       };
 
       git_branch = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #7c5cff";
         format = "[on](dimmed #94a3b8) [$symbol$branch]($style) ";
       };
@@ -195,31 +205,31 @@
       };
 
       rust = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #f38ba8";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       golang = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #8bd5ff";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       nodejs = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #5ee6a8";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       python = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #ffd166";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       nix_shell = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #7dcfff";
         format = "[in](dimmed #94a3b8) [$symbol$state( $name)]($style) ";
         impure_msg = "[impure](bold #ff6b81)";
@@ -278,7 +288,7 @@
         "break",
         {
           "type": "title",
-          "key": "",
+          "key": "",
           "format": "{##cba6f7}{user-name}{##94e2d5}@{##42c7ff}{host-name}{#}"
         },
         {
@@ -287,7 +297,7 @@
         },
         {
           "type": "os",
-          "key": ""
+          "key": ""
         },
         {
           "type": "host",
@@ -295,7 +305,7 @@
         },
         {
           "type": "kernel",
-          "key": ""
+          "key": ""
         },
         {
           "type": "uptime",
@@ -307,11 +317,11 @@
         },
         {
           "type": "shell",
-          "key": ""
+          "key": ""
         },
         {
           "type": "terminal",
-          "key": ""
+          "key": ""
         },
         {
           "type": "wm",

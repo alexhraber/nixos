@@ -13,12 +13,12 @@ window#waybar {
 #custom-launcher,
 #workspaces,
 #clock,
-#custom-network,
+#custom-net,
 #bluetooth,
 #pulseaudio,
 #backlight,
-#cpu,
-#memory,
+#custom-cpu,
+#custom-memory,
 #battery,
 #custom-notifications {
   background: rgba(17, 21, 29, 0.84);
@@ -64,14 +64,27 @@ window#waybar {
 }
 
 #custom-notifications:hover,
-#custom-network:hover {
+#custom-net:hover {
   background: rgba(255, 255, 255, 0.06);
 }
 
-#pulseaudio,
-#cpu,
-#memory {
+#custom-net {
+  min-width: 180px;
+}
+
+#custom-cpu,
+#custom-memory {
   min-width: 88px;
+}
+
+#custom-cpu.warning,
+#custom-memory.warning {
+  color: #ffd166;
+}
+
+#custom-cpu.critical,
+#custom-memory.critical {
+  color: #ff6b81;
 }
 
 #pulseaudio.muted,
@@ -88,8 +101,11 @@ tooltip {
   background: rgba(17, 21, 29, 0.96);
   border: 1px solid #2a3447;
   border-radius: 12px;
+  padding: 4px;
 }
 
 tooltip label {
   color: #e6edf7;
+  font-family: "Source Code Pro", monospace;
+  font-size: 13px;
 }
