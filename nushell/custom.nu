@@ -8,8 +8,6 @@ $env.PATH = ($env.PATH | prepend [
 ])
 
 $env.GPG_TTY = (tty)
-^stty sane
-^reset
 
 alias ll = ls -la
 alias la = ls -a
@@ -43,13 +41,23 @@ def shell-level [] {
   ($env.SHLVL? | default "1" | into int)
 }
 
+# Lockfile keyed on parent PID (the terminal process) — survives shell restarts within same terminal
+def ff-lockfile [] {
+  let rows = (ps | where pid == $nu.pid)
+  let ppid = if ($rows | is-empty) { 0 } else { $rows | get ppid | first }
+  $"/tmp/.ff_($ppid)"
+}
+
 if $nu.is-interactive {
   let nested_shell = ((shell-level) > 1)
   let remote_shell = (is-ssh-session)
+  let lockfile = (ff-lockfile)
+  let already_shown = ($lockfile | path exists)
 
-  if (not $nested_shell) and (not $remote_shell) {
-    if (has-command "fastfetch") {
-      fastfetch
-    }
+  if (not $nested_shell) and (not $remote_shell) and (not $already_shown) {
+    ^touch $lockfile
+    ^stty sane
+    ^reset
+    if (has-command "fastfetch") { fastfetch }
   }
 }
