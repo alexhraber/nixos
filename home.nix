@@ -111,6 +111,7 @@ in
       icon-theme = "Adwaita";
       drun-display-format = "{name}";
       calc-command = "echo -n '{result}' | wl-copy";
+      no-history = true;
       display-combi = "";
       display-drun = " Apps";
       display-calc = " Calc";
