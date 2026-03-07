@@ -1,3 +1,6 @@
 def src [] {
-  nrs; source /etc/nixos/nushell/custom.nu
+  nrs
+  let lockfile = (ff-lockfile)
+  if ($lockfile | path exists) { rm $lockfile }
+  source /etc/nixos/nushell/custom.nu
 }

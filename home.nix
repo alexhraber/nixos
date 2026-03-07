@@ -433,6 +433,33 @@
       ];
 
       input-field = [
+        {
+          monitor = "";
+          size = { width = 580; height = 80; };
+          position = "0, -60";
+          halign = "center";
+          valign = "center";
+
+          outline_thickness = 3;
+          inner_color = "rgba(13,16,23,0.9)";
+          outer_color = "rgba(124,92,255,0.9)";
+          check_color = "rgba(66,199,255,0.9)";
+          fail_color = "rgba(255,107,129,0.9)";
+
+          font_family = "Source Code Pro";
+          font_color = "rgba(230,237,247,1.0)";
+          font_size = 18;
+
+          placeholder_text = "password";
+          fail_text = "<i>$FAIL</i>  [$ATTEMPTS]";
+
+          rounding = 12;
+          shadow_passes = 2;
+          shadow_size = 6;
+          fade_on_empty = false;
+          dots_spacing = 0.25;
+          dots_center = true;
+        }
       ];
     };
   };
