@@ -253,6 +253,7 @@ in
     "float,class:^(nm-connection-editor)$"
     "size 980 700,class:^(pavucontrol)$"
     "suppressevent maximize, class:.*"
+    "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
 "scrolltouchpad 0.2, class:^com.mitchellh.ghostty$"
   ];
 }
