@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./sddm-minimal.nix
+    ./greetd.nix
     <home-manager/nixos>
   ];
 

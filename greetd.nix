@@ -9,7 +9,7 @@
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --time \
             --time-format '%I:%M %p  %a %b %d' \
-            --greeting '' \
+            --greeting "" \
             --asterisks \
             --remember \
             --remember-session \
