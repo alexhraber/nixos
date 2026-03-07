@@ -43,8 +43,7 @@ def shell-level [] {
 
 # Lockfile keyed on parent PID (the terminal process) — survives shell restarts within same terminal
 def ff-lockfile [] {
-  let rows = (ps | where pid == $nu.pid)
-  let ppid = if ($rows | is-empty) { 0 } else { $rows | get ppid | first }
+  let ppid = (open --raw $"/proc/($nu.pid)/status" | lines | where ($it | str starts-with "PPid") | first | str replace --regex 'PPid:\s+' '' | str trim)
   $"/tmp/.ff_($ppid)"
 }
 
