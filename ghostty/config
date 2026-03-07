@@ -1,0 +1,35 @@
+font-family = Source Code Pro
+font-size = 16
+
+background = 0d1017
+foreground = e6edf7
+
+cursor-color = 7c5cff
+selection-background = 24324a
+selection-foreground = f5f7ff
+
+palette = 0=#11151d
+palette = 1=#ff6b81
+palette = 2=#5ee6a8
+palette = 3=#ffd166
+palette = 4=#42c7ff
+palette = 5=#7c5cff
+palette = 6=#4ce0d2
+palette = 7=#c9d7e7
+palette = 8=#3a4658
+palette = 9=#ff8fa3
+palette = 10=#7ef0ba
+palette = 11=#ffe08a
+palette = 12=#74d7ff
+palette = 13=#9a7bff
+palette = 14=#7ceee3
+palette = 15=#ffffff
+
+background-opacity = 0.94
+window-padding-x = 12
+window-padding-y = 12
+
+cursor-style = bar
+gtk-titlebar = false
+confirm-close-surface = false
+copy-on-select = clipboard

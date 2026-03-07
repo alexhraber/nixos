@@ -1,0 +1,85 @@
+* {
+  border: none;
+  min-height: 0;
+  font-family: "Symbols Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Source Code Pro";
+  font-size: 15px;
+  color: #e6edf7;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+#custom-launcher,
+#workspaces,
+#clock,
+#tray,
+#network,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#cpu,
+#memory,
+#battery {
+  background: rgba(17, 21, 29, 0.84);
+  border: 1px solid rgba(42, 52, 71, 0.95);
+  border-radius: 14px;
+  padding: 4px 12px;
+  margin: 0 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+#custom-launcher {
+  color: #7c5cff;
+  font-size: 18px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+#workspaces {
+  padding: 2px 8px;
+}
+
+#workspaces button {
+  color: #94a3b8;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin: 3px 3px;
+}
+
+#workspaces button.active {
+  color: #ffffff;
+  background: linear-gradient(90deg, #7c5cff, #42c7ff);
+}
+
+#workspaces button:hover {
+  color: #ffffff;
+  background: rgba(124, 92, 255, 0.18);
+}
+
+#clock {
+  font-weight: 700;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+#network.disconnected,
+#pulseaudio.muted,
+#battery.warning,
+#battery.critical {
+  color: #ff6b81;
+}
+
+#battery.charging {
+  color: #5ee6a8;
+}
+
+tooltip {
+  background: rgba(17, 21, 29, 0.96);
+  border: 1px solid #2a3447;
+  border-radius: 12px;
+}
+
+tooltip label {
+  color: #e6edf7;
+}
