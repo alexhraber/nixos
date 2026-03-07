@@ -9,7 +9,7 @@
 
   "modules-left": ["custom/launcher", "hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/network", "bluetooth", "pulseaudio", "backlight", "cpu", "memory", "battery", "custom/notifications"],
+  "modules-right": ["custom/network", "bluetooth", "cpu", "memory", "pulseaudio", "custom/notifications"],
 
   "custom/launcher": {
     "format": "",
@@ -61,22 +61,12 @@
     "on-click": "pavucontrol"
   },
 
-  "backlight": {
-    "format": "󰃟  {percent}%"
-  },
-
   "cpu": {
     "format": "  {usage:>3}%"
   },
 
   "memory": {
     "format": "  {percentage:>3}%"
-  },
-
-  "battery": {
-    "format": "{icon}  {capacity}%",
-    "format-charging": "󰂄  {capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
 
   "custom/notifications": {

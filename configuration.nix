@@ -46,6 +46,9 @@
     networkmanagerapplet
     brightnessctl
     nwg-look
+    gcc
+    pkg-config
+    sqlite
 
     curl
     wget
@@ -120,6 +123,7 @@
     curl
     git
     libgcc
+    sqlite
   ];
 
   programs.gnupg.agent = {

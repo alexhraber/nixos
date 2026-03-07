@@ -251,6 +251,9 @@
   programs.nushell = {
     enable = true;
     extraConfig = ''
+      $env.PKG_CONFIG_PATH = "${pkgs.sqlite.dev}/lib/pkgconfig"
+      $env.LIBRARY_PATH = "${pkgs.sqlite.out}/lib"
+      $env.PATH = ($env.PATH | append $"($env.HOME)/.cargo/bin")
       $env.config.show_banner = false
       source /etc/nixos/nushell/custom.nu
       source /etc/nixos/nushell/overlay.nu
