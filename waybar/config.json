@@ -19,10 +19,11 @@
 
   "hyprland/workspaces": {
     "disable-scroll": false,
-    "all-outputs": true,
+    "all-outputs": false,
+    "sort-by-number": true,
     "format": "{icon}",
     "persistent-workspaces": {
-      "*": 9
+      "*": 4
     },
     "format-icons": {
       "1": "",
@@ -46,8 +47,8 @@
     "interval": 3,
     "format": "{}",
     "tooltip": true,
-    "on-click": "nm-connection-editor",
-    "on-click-right": "ghostty -e sudo iftop"
+    "on-click": "ghostty -e sudo iftop",
+    "on-click-right": "nm-connection-editor"
   },
 
   "bluetooth": {
@@ -63,7 +64,7 @@
     "interval": 3,
     "format": "{}",
     "tooltip": true,
-    "on-click": "ghostty -e btop"
+    "on-click": "ghostty -e btop -p 0"
   },
 
   "custom/memory": {
@@ -72,7 +73,7 @@
     "interval": 5,
     "format": "{}",
     "tooltip": true,
-    "on-click": "ghostty -e btop"
+    "on-click": "ghostty -e btop -p 1"
   },
 
   "pulseaudio": {

@@ -39,10 +39,20 @@ while read -r line; do
   fi
   echo "$core_total $core_idle" > "$state_file"
 
-  # progress bar (10 chars)
+  # Pango gradient bar (10 chars): green→yellow→red
   filled=$(( pct / 10 ))
-  bar="$(printf '█%.0s' $(seq 1 $filled 2>/dev/null))$(printf '░%.0s' $(seq 1 $(( 10 - filled )) 2>/dev/null))"
-  CORE_LINES+="$(printf "  Core %-2s  %s  %3d%%\n" "$idx" "$bar" "$pct")"
+  bar=""
+  for i in 0 1 2 3 4 5 6 7 8 9; do
+    if [[ $i -lt $filled ]]; then
+      if   [[ $i -lt 3 ]]; then bar+='<span color="#5ee6a8">█</span>'
+      elif [[ $i -lt 7 ]]; then bar+='<span color="#ffd166">█</span>'
+      else                       bar+='<span color="#ff6b81">█</span>'
+      fi
+    else
+      bar+='<span color="#2a3447">░</span>'
+    fi
+  done
+  CORE_LINES+="$(printf "  <b>%2d</b>  %s  <b>%3d%%</b>\n" "$((idx+1))" "$bar" "$pct")"
 done < /proc/stat
 
 # Temperatures

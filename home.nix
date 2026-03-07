@@ -40,7 +40,6 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
-    rofi-calc
   ];
 
   home.sessionVariables = {
@@ -102,7 +101,6 @@ in
 
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi;
     plugins = [ pkgs.rofi-calc ];
     terminal = "ghostty";
     theme = "~/.config/rofi/theme.rasi";
@@ -483,6 +481,40 @@ in
       ]
     }
   '';
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "Default";
+      theme_background = false;
+      truecolor = true;
+      force_tty = false;
+      graph_symbol = "braille";
+      update_ms = 1000;
+      proc_sorting = "cpu lazy";
+      proc_reversed = false;
+      proc_tree = false;
+      proc_gradient = true;
+      proc_per_core = true;
+      cpu_graph_upper = "total";
+      cpu_graph_lower = "user";
+      cpu_invert_lower = true;
+      cpu_single_graph = false;
+      cpu_bottom = false;
+      mem_graphs = true;
+      show_swap = true;
+      swap_disk = true;
+      show_disks = true;
+      net_download = 100;
+      net_upload = 100;
+      net_auto = true;
+      net_sync = false;
+      # Preset 0: CPU Monster — big cpu + cores + proc by cpu, hide mem/net/disk
+      preset_0 = "cpu_single:false cpu_bottom:false show_cpu:true show_corebox:true show_mem:false show_net:false show_disks:false show_io_stat:false show_gpu:false show_proc:true proc_sorting:cpu lazy proc_per_core:true";
+      # Preset 1: Memory Monster — mem + disks + proc by mem, hide cpu/net
+      preset_1 = "cpu_single:false cpu_bottom:false show_cpu:false show_corebox:false show_mem:true show_net:false show_disks:true show_io_stat:true show_gpu:false show_proc:true proc_sorting:mem proc_mem_bytes:true";
+    };
+  };
 
   services.swaync.enable = true;
 
