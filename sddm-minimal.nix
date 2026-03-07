@@ -1,34 +1,38 @@
 { config, pkgs, lib, ... }:
 
 {
-  services.displayManager.defaultSession = "hyprland";
-
-  services.displayManager.sddm = {
+  services.greetd = {
     enable = true;
-    wayland.enable = true;
-    theme = "breeze";
-
     settings = {
-      General = {
-        DisplayServer = "wayland";
-        GreeterEnvironment = "QT_SCREEN_SCALE_FACTORS=1.5,QT_FONT_DPI=144";
-        InputMethod = "";
-      };
-
-      Theme = {
-        Current = "breeze";
-        CursorTheme = "Bibata-Modern-Ice";
-        CursorSize = 24;
-        Font = "Source Code Pro,12,-1,5,50,0,0,0,0,0";
-      };
-
-      Users = {
-        RememberLastUser = true;
-        RememberLastSession = true;
-        HideShells = "/run/current-system/sw/bin/nologin";
-        MinimumUid = 1000;
-        MaximumUid = 60000;
+      default_session = {
+        command = ''
+          ${pkgs.greetd.tuigreet}/bin/tuigreet \
+            --time \
+            --time-format '%I:%M %p  %a %b %d' \
+            --greeting '' \
+            --asterisks \
+            --remember \
+            --remember-session \
+            --theme 'border=magenta;text=white;prompt=magenta;time=cyan;action=cyan;button=cyan;container=black;input=white' \
+            --cmd Hyprland
+        '';
+        user = "greeter";
       };
     };
   };
+
+  # Suppress the login noise on tty1 (greetd owns it)
+  systemd.services.greetd.serviceConfig = {
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    TTYPath = "/dev/tty1";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
+  };
+
+  # tuigreet color env — matches the purple/dark theme
+  environment.etc."greetd/environments".text = ''
+    Hyprland
+  '';
 }
