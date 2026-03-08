@@ -125,7 +125,7 @@ in
       layer: Overlay,
       hide_plugin_info: true,
       close_on_click: true,
-      show_results_immediately: true,
+      show_results_immediately: false,
       max_entries: Some(5),
     )
   '';
