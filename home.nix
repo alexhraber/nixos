@@ -8,6 +8,7 @@ let
   waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
   waybar-sysmanage = pkgs.writeShellScriptBin "waybar-sysmanage" (builtins.readFile ./waybar/scripts/sysmanage.sh);
   anyrun         = pkgs.anyrun;
+
 in
 {
   home.stateVersion = "25.11";
@@ -52,6 +53,7 @@ in
     wdisplays
     anyrun
     wlogout
+    fzf
   ];
 
   home.sessionVariables = {
@@ -350,6 +352,11 @@ in
       gtk-titlebar = false;
       confirm-close-surface = false;
       copy-on-select = "clipboard";
+
+      keybind = "super+x=text:\\x01";
+
+      # Auto-attach to (or create) a persistent tmux session on launch
+      command = "tmux new-session -A -s main";
     };
   };
 
@@ -642,6 +649,92 @@ in
         }
       ];
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    prefix = "C-a";
+    mouse = true;
+    keyMode = "vi";
+    baseIndex = 1;
+    terminal = "tmux-256color";
+    historyLimit = 50000;
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      tmux-sessionx
+      resurrect
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore "on"
+          set -g @continuum-save-interval "5"
+        '';
+      }
+    ];
+    extraConfig = ''
+      # sessionx keybinding
+      set -g @sessionx-bind "x"
+
+      # resurrect — save/restore keybinds (C-a C-s / C-a C-r)
+      set -g @resurrect-capture-pane-contents "on"
+
+      # True color
+      set -ag terminal-overrides ",xterm-256color:RGB"
+      set -ag terminal-overrides ",ghostty:RGB"
+
+      # Pane numbering matches window base index
+      set -g pane-base-index 1
+      set-window-option -g pane-base-index 1
+      set-option -g renumber-windows on
+
+      # No ESC delay
+      set -sg escape-time 10
+
+      # Status bar
+      set -g status on
+      set -g status-interval 5
+      set -g status-position bottom
+      set -g status-justify left
+
+      bg="#0d1017"
+      fg="#e6edf7"
+      violet="#7c5cff"
+      cyan="#42c7ff"
+      yellow="#ffd166"
+      inactive="#3a4658"
+      dimfg="#6b7280"
+
+      set -g status-style                  "bg=default,fg=$fg"
+      set -g status-left-length            32
+      set -g status-left                   " #[fg=$violet,bg=default]#[fg=$bg,bg=$violet,bold]#S#[fg=$violet,bg=default]#[default]  "
+      set -g status-right-length           28
+      set -g status-right                  " #[fg=$cyan,bg=default]#[fg=$bg,bg=$cyan,bold] #[fg=$cyan,bg=default]#[default] "
+
+      set -g window-status-separator       " "
+      set -g window-status-format          "#[fg=$inactive,bg=default]#[fg=$bg,bg=$inactive]#W#[fg=$inactive,bg=default]#[default]"
+      set -g window-status-current-format  "#[fg=$yellow,bg=default]#[fg=$bg,bg=$yellow,bold]#W#[fg=$yellow,bg=default]#[default]"
+
+      set -g pane-border-style             "fg=$inactive"
+      set -g pane-active-border-style      "fg=$violet"
+
+      set -g message-style                 "bg=$violet,fg=$bg,bold"
+      set -g message-command-style         "bg=$inactive,fg=$fg"
+      set -g mode-style                    "bg=$violet,fg=$bg"
+
+      # Vi pane navigation
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+
+      # Open splits/windows in current path
+      bind '"' split-window -v -c "#{pane_current_path}"
+      bind % split-window -h -c "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
+
+      # Reload config
+      bind r source-file ~/.config/tmux/tmux.conf \; display "  reloaded"
+    '';
   };
 
   programs.hyprlock = {

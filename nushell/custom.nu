@@ -41,6 +41,10 @@ def shell-level [] {
   ($env.SHLVL? | default "1" | into int)
 }
 
+if $nu.is-interactive and (($env.TMUX? | default "") == "") and (not (is-ssh-session)) {
+  exec tmux new-session -A -s main
+}
+
 if $nu.is-interactive {
   let nested_shell = ((shell-level) > 1)
   let remote_shell = (is-ssh-session)

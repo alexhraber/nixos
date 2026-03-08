@@ -113,6 +113,9 @@
     zoxide
     fastfetch
 
+    ffmpeg
+    obs-studio
+
     podman
     podman-compose
     kubectl
