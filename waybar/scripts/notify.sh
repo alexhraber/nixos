@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Show notification bell only when count > 0
+# Notification bell — always visible; lit with count when active
 
 COUNT=$(swaync-client -c 2>/dev/null | tr -d '[:space:]')
 [[ -z "$COUNT" || ! "$COUNT" =~ ^[0-9]+$ ]] && COUNT=0
@@ -7,5 +7,5 @@ COUNT=$(swaync-client -c 2>/dev/null | tr -d '[:space:]')
 if (( COUNT > 0 )); then
   jq -cn --arg t $'\uf0f3'"  ${COUNT}" '{text:$t,tooltip:"",class:"active"}'
 else
-  echo '{"text":"","tooltip":"","class":"hidden"}'
+  jq -cn --arg t $'\uf1f6' '{text:$t,tooltip:"",class:"idle"}'
 fi

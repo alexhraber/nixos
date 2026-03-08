@@ -54,7 +54,7 @@ if [[ -n "$DATA" ]]; then
   fi
 
   WEATHER_TEXT="${TEMP_F}°F ${GLYPH}"
-  WEATHER_TT=$(printf "Condition: %s\nTemp: %s°F\nWind: %s %s" \
+  WEATHER_TT=$(printf "Cond   %s\nTemp   %s°F\nWind   %s %s" \
     "$COND" "$TEMP_F" "$WIND" "$WIND_DIR")
 else
   WEATHER_TEXT="--°F"

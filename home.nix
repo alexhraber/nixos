@@ -12,6 +12,8 @@ in
 {
   home.stateVersion = "25.11";
 
+  home.file.".config/wallpapers/main.png".source = ./wallpapers/main.png;
+
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -115,8 +117,8 @@ in
         "${anyrun}/lib/libapplications.so",
         "${anyrun}/lib/librink.so",
       ],
-      width: Fraction(0.38),
-      y_offset: 350,
+      width: Fraction(0.46),
+      y_offset: 800,
       x_offset: 0,
       hide_icons: false,
       ignore_exclusive_zones: false,
@@ -124,7 +126,7 @@ in
       hide_plugin_info: true,
       close_on_click: false,
       show_results_immediately: true,
-      max_entries: Some(16),
+      max_entries: Some(8),
     )
   '';
 
@@ -149,38 +151,40 @@ in
       color: #e6edf7;
     }
     window, #window {
-      background: rgba(17, 21, 29, 0.97);
-      border: 1px solid rgba(42, 52, 71, 0.95);
-      border-radius: 16px;
-      padding: 10px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+      background: rgba(13, 16, 23, 0.97);
+      border: 1.5px solid rgba(124, 92, 255, 0.5);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 0 48px rgba(124, 92, 255, 0.14);
     }
     entry, #entry {
-      background: rgba(30, 38, 54, 0.9);
-      border: 1px solid rgba(42, 52, 71, 1.0);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin: 4px 4px 8px 4px;
+      background: rgba(22, 28, 42, 0.95);
+      border: 1.5px solid rgba(124, 92, 255, 0.45);
+      border-radius: 12px;
+      padding: 13px 18px;
+      margin: 6px 6px 12px 6px;
       color: #e6edf7;
-      font-size: 16px;
+      font-size: 18px;
+      caret-color: #7c5cff;
     }
     entry:focus, #entry:focus {
-      border-color: rgba(124, 92, 255, 0.6);
+      border-color: rgba(124, 92, 255, 0.9);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.15);
     }
     list { background: transparent; }
     row {
-      padding: 7px 10px;
-      border-radius: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
       background: transparent;
-      margin: 1px 4px;
+      margin: 2px 6px;
     }
     row:selected {
-      background: linear-gradient(135deg, rgba(124, 92, 255, 0.28) 0%, rgba(66, 199, 255, 0.14) 100%);
-      border: 1px solid rgba(124, 92, 255, 0.38);
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.32) 0%, rgba(66, 199, 255, 0.16) 100%);
+      border: 1px solid rgba(124, 92, 255, 0.5);
     }
-    #plugin { color: rgba(124, 92, 255, 0.6); font-size: 11px; padding: 2px 10px; }
+    #plugin { color: rgba(124, 92, 255, 0.75); font-size: 11px; padding: 2px 10px; font-weight: bold; letter-spacing: 0.06em; }
     label { color: #e6edf7; }
-    image { margin-right: 8px; }
+    image { margin-right: 10px; }
   '';
 
   xdg.configFile."wlogout/layout".text = ''
@@ -217,41 +221,92 @@ in
     {
       "label": "preferences-system",
       "action": "waybar-sysmanage",
-      "text": "System",
+      "text": "󰒓",
       "keybind": "m"
     }
   '';
 
   xdg.configFile."wlogout/style.css".text = ''
-    * { background-image: none; box-shadow: none; }
+    * { box-shadow: none; }
 
     window {
-      background-color: rgba(13, 16, 23, 0.92);
+      background-color: rgba(13, 16, 23, 0.93);
       font-family: "Source Code Pro", monospace;
     }
 
     button {
-      color: #e6edf7;
-      background-color: rgba(17, 21, 29, 0.85);
-      border: 1px solid rgba(42, 52, 71, 0.9);
-      border-radius: 16px;
-      margin: 20px;
-      padding: 50px 80px;
-      font-size: 14px;
+      color: #3a4658;
+      background-color: rgba(17, 21, 29, 0.65);
+      background-repeat: no-repeat;
+      background-position: center 32%;
+      background-size: 52px;
+      border: 1px solid rgba(42, 52, 71, 0.7);
+      border-radius: 20px;
+      margin: 18px;
+      min-width: 120px;
+      min-height: 150px;
+      padding-top: 100px;
+      padding-bottom: 18px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       transition: all 0.2s ease;
     }
 
-    button:hover {
-      background: linear-gradient(135deg, rgba(124, 92, 255, 0.35) 0%, rgba(66, 199, 255, 0.18) 100%);
+    button:focus { outline: none; }
+
+    #lock {
+      background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+    }
+    #suspend {
+      background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+    }
+    #logout {
+      background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+    }
+    #reboot {
+      background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
+    }
+    #shutdown {
+      background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
+    }
+    #preferences-system {
+      font-size: 36px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    #lock:hover {
+      color: #42c7ff;
+      border-color: rgba(66, 199, 255, 0.65);
+      background-color: rgba(66, 199, 255, 0.1);
+    }
+    #suspend:hover {
+      color: #5ee6a8;
+      border-color: rgba(94, 230, 168, 0.65);
+      background-color: rgba(94, 230, 168, 0.09);
+    }
+    #logout:hover {
+      color: #9a7bff;
       border-color: rgba(124, 92, 255, 0.75);
-      color: #ffffff;
+      background-color: rgba(124, 92, 255, 0.13);
     }
-
-    button:focus {
-      background: linear-gradient(135deg, rgba(124, 92, 255, 0.45) 0%, rgba(66, 199, 255, 0.22) 100%);
-      border-color: rgba(124, 92, 255, 0.95);
+    #reboot:hover {
+      color: #ffd166;
+      border-color: rgba(255, 209, 102, 0.65);
+      background-color: rgba(255, 209, 102, 0.09);
     }
-
+    #shutdown:hover {
+      color: #ff6b81;
+      border-color: rgba(255, 107, 129, 0.65);
+      background-color: rgba(255, 107, 129, 0.11);
+    }
+    #preferences-system:hover {
+      color: #e6edf7;
+      border-color: rgba(58, 70, 88, 0.9);
+      background-color: rgba(58, 70, 88, 0.25);
+    }
   '';
 
   programs.ghostty = {

@@ -115,12 +115,20 @@ window#waybar {
   color: #5ee6a8;
 }
 
-#custom-notifications.hidden {
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
+#custom-notifications.idle {
+  color: #3a4658;
+}
+
+#custom-notifications.active {
+  color: #7c5cff;
+}
+
+#bluetooth {
+  color: #3a4658;
+}
+
+#bluetooth.connected {
+  color: #e6edf7;
 }
 
 tooltip {

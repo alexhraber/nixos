@@ -50,11 +50,12 @@ fi
 echo "$RX_NOW $TX_NOW $NOW" > "$STATE"
 
 fmt_rate() {
-  local b=$1
-  if   [[ $b -ge 1048576 ]]; then printf "%d.%dM/s" $(( b/1048576 )) $(( (b%1048576)*10/1048576 ))
-  elif [[ $b -ge 1024    ]]; then printf "%dK/s"     $(( b/1024 ))
-  else                            printf "%dB/s"     "$b"
+  local b=$1 r
+  if   [[ $b -ge 1048576 ]]; then r=$(printf "%d.%dM/s" $(( b/1048576 )) $(( (b%1048576)*10/1048576 )))
+  elif [[ $b -ge 1024    ]]; then r=$(printf "%dK/s"     $(( b/1024 )))
+  else                            r=$(printf "%dB/s"     "$b")
   fi
+  printf "%6s" "$r"
 }
 
 fmt_total() {
