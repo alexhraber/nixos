@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./tuigreet.nix
+    ./greeter.nix
     <home-manager/nixos>
   ];
 
