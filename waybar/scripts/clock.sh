@@ -54,11 +54,10 @@ if [[ -n "$DATA" ]]; then
   fi
 
   WEATHER_TEXT="${TEMP_F}°F ${GLYPH}"
-  WEATHER_TT=$(printf "%-12s %s\n%-12s %s°F\n%-12s %s %s\n%-12s %s" \
+  WEATHER_TT=$(printf "%-12s %s\n%-12s %s°F\n%-12s %s %s" \
     "Condition:" "$COND" \
     "Temp:"      "$TEMP_F" \
-    "Wind:"      "$WIND" "$WIND_DIR" \
-    "Source:"    "NOAA / weather.gov")
+    "Wind:"      "$WIND" "$WIND_DIR")
 else
   WEATHER_TEXT="--°F"
   WEATHER_TT="NOAA data unavailable"
