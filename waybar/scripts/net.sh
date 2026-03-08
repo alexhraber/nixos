@@ -103,7 +103,7 @@ if [[ -n "$WIFI_IFACE" ]]; then
     BAND=""
   fi
 
-  TEXT="󰤨  ${SSID}  ⬇${RX_S} ⬆${TX_S}"
+  TEXT="󰤨  ${SSID}  ${RX_S}⬇ ${TX_S}⬆"
   TOOLTIP="$(printf " %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s" \
     "ssid" "$SSID" \
     "iface" "$IFACE" \
@@ -114,18 +114,18 @@ if [[ -n "$WIFI_IFACE" ]]; then
   [[ -n "$SIG_STR" ]] && TOOLTIP+="$(printf "\n %-14s %s" "signal" "$SIG_STR")"
   [[ -n "$BAND" ]]  && TOOLTIP+="$(printf "\n %-14s %s" "band" "$BAND")"
   [[ -n "$BITRATE" ]] && TOOLTIP+="$(printf "\n %-14s %s" "link rate" "$BITRATE")"
-  TOOLTIP+="$(printf "\n\n %-14s ⬇ %-12s ⬆ %s" "rate" "$RX_S" "$TX_S")"
-  TOOLTIP+="$(printf "\n %-14s ⬇ %-12s ⬆ %s" "session" "$RX_TOT" "$TX_TOT")"
+  TOOLTIP+="$(printf "\n\n %-14s %s⬇  %s⬆" "rate" "$RX_S" "$TX_S")"
+  TOOLTIP+="$(printf "\n %-14s %s⬇  %s⬆" "session" "$RX_TOT" "$TX_TOT")"
 else
-  TEXT="󰈀  ${IFACE}  ⬇${RX_S} ⬆${TX_S}"
+  TEXT="󰈀  ${IFACE}  ${RX_S}⬇ ${TX_S}⬆"
   TOOLTIP="$(printf " %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s\n %-14s %s" \
     "iface" "$IFACE" \
     "ip" "${IP:-n/a}" \
     "gateway" "${GW:-n/a}" \
     "mac" "${MAC:-n/a}" \
     "dns" "${DNS:-n/a}")"
-  TOOLTIP+="$(printf "\n\n %-14s ⬇ %-12s ⬆ %s" "rate" "$RX_S" "$TX_S")"
-  TOOLTIP+="$(printf "\n %-14s ⬇ %-12s ⬆ %s" "session" "$RX_TOT" "$TX_TOT")"
+  TOOLTIP+="$(printf "\n\n %-14s %s⬇  %s⬆" "rate" "$RX_S" "$TX_S")"
+  TOOLTIP+="$(printf "\n %-14s %s⬇  %s⬆" "session" "$RX_TOT" "$TX_TOT")"
 fi
 
 jq -cn --arg t "$TEXT" --arg tt "$TOOLTIP" '{text:$t,tooltip:$tt}'
