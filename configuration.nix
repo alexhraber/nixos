@@ -8,7 +8,35 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.consoleMode = "1";
+  boot.loader.systemd-boot.editor = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.plymouth.enable = true;
+  boot.plymouth.theme = "breeze";
+
+  console = {
+    earlySetup = true;
+    font = "${pkgs.kbd}/share/consolefonts/LatGrkCyr-12x22.psfu.gz";
+    packages = [ pkgs.kbd ];
+    colors = [
+      "040814"
+      "7c5cff"
+      "42c7ff"
+      "a9d7ff"
+      "2a3447"
+      "9f7cff"
+      "6be3ff"
+      "cfe7ff"
+      "0b1220"
+      "a78bfa"
+      "67e8f9"
+      "e8f6ff"
+      "3b82f6"
+      "c084fc"
+      "7dd3fc"
+      "f8fbff"
+    ];
+  };
 
   networking.hostName = "cube";
   time.timeZone = "America/Los_Angeles";
