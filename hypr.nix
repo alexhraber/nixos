@@ -151,6 +151,7 @@ in
   bind = [
     # Apps
     "$mod, RETURN, exec, $terminal"
+    "$mod SHIFT, RETURN, exec, ${terminal} -e tmux new-session -A -s scratch"
     "$mod, SPACE, exec, $menu"
     "$mod, B, exec, ${browser}"
     "$mod, E, exec, ${fileManager}"
