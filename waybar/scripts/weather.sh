@@ -12,7 +12,7 @@ else
 fi
 
 if [[ -z "$DATA" ]]; then
-  jq -cn '{text:"",tooltip:"weather unavailable",class:"normal"}'
+  jq -cn '{text:"--°F ?",tooltip:"weather unavailable",class:"normal"}'
   exit 0
 fi
 

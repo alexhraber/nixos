@@ -6,6 +6,7 @@ let
   waybar-net     = pkgs.writeShellScriptBin "waybar-net"     (builtins.readFile ./waybar/scripts/net.sh);
   waybar-weather = pkgs.writeShellScriptBin "waybar-weather" (builtins.readFile ./waybar/scripts/weather.sh);
   waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
+  waybar-sysmanage = pkgs.writeShellScriptBin "waybar-sysmanage" (builtins.readFile ./waybar/scripts/sysmanage.sh);
   anyrun         = pkgs.anyrun;
 in
 {
@@ -45,6 +46,8 @@ in
     waybar-net
     waybar-weather
     waybar-notify
+    waybar-sysmanage
+    wdisplays
     anyrun
     wlogout
   ];
@@ -211,6 +214,12 @@ in
       "text": "Shutdown",
       "keybind": "u"
     }
+    {
+      "label": "system",
+      "action": "waybar-sysmanage",
+      "text": "System",
+      "keybind": "m"
+    }
   '';
 
   xdg.configFile."wlogout/style.css".text = ''
@@ -241,6 +250,13 @@ in
     button:focus {
       background: linear-gradient(135deg, rgba(124, 92, 255, 0.45) 0%, rgba(66, 199, 255, 0.22) 100%);
       border-color: rgba(124, 92, 255, 0.95);
+    }
+
+    #system {
+      background-image: image(url("/run/current-system/sw/share/icons/Adwaita/scalable/categories/preferences-system-symbolic.svg"));
+      background-repeat: no-repeat;
+      background-position: center 35%;
+      background-size: 52px;
     }
   '';
 
