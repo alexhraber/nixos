@@ -537,8 +537,9 @@ in
           "key": " "
         },
         {
-          "type": "terminal",
-          "key": "󰊠 "
+          "type": "custom",
+          "key": "󰊠 ",
+          "format": "ghostty"
         },
         {
           "type": "wm",
