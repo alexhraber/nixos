@@ -153,7 +153,7 @@ in
     "$mod, RETURN, exec, ${terminal} -e tmux new-session -A -s main"
     "$mod SHIFT, RETURN, exec, ${terminal} -e tmux new-session -A -s scratch"
     "$mod, SPACE, exec, $menu"
-    "$mod, B, exec, ${browser}"
+    "$mod, C, exec, ${browser}"
     "$mod, E, exec, ${fileManager}"
     "$mod, L, exec, hyprlock"
     "$mod SHIFT, T, exec, ${terminal} -e btop"

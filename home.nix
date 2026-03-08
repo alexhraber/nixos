@@ -348,7 +348,7 @@ in
       window-padding-x = 12;
       window-padding-y = 12;
 
-      cursor-style = "bar";
+      cursor-style = "block";
       gtk-titlebar = false;
       confirm-close-surface = false;
       copy-on-select = "clipboard";
@@ -537,9 +537,10 @@ in
           "key": " "
         },
         {
-          "type": "custom",
+          "type": "command",
           "key": "󰊠 ",
-          "format": "ghostty"
+          "shell": "${pkgs.bash}/bin/bash",
+          "text": "ghostty +version | sed -n '1{s/^Ghostty /ghostty /;p}'"
         },
         {
           "type": "wm",
