@@ -677,6 +677,7 @@ in
 
       # resurrect — save/restore keybinds (C-a C-s / C-a C-r)
       set -g @resurrect-capture-pane-contents "on"
+      set -g @resurrect-hook-post-restore-all 'tmux new-session -d -s main 2>/dev/null; tmux new-session -d -s scratch 2>/dev/null; tmux switch-client -t main'
 
       # True color
       set -ag terminal-overrides ",xterm-256color:RGB"
