@@ -514,43 +514,43 @@ in
         },
         {
           "type": "os",
-          "key": ""
+          "key": "󱄅 "
         },
         {
           "type": "host",
-          "key": "󰌢"
+          "key": "󰌢 "
         },
         {
           "type": "kernel",
-          "key": ""
+          "key": " "
         },
         {
           "type": "uptime",
-          "key": "󰅐"
+          "key": "󰅐 "
         },
         {
           "type": "packages",
-          "key": "󰏖"
+          "key": "󰏖 "
         },
         {
           "type": "shell",
-          "key": ""
+          "key": " "
         },
         {
           "type": "terminal",
-          "key": ""
+          "key": "󰊠 "
         },
         {
           "type": "wm",
-          "key": "󱂬"
+          "key": "󱂬 "
         },
         {
           "type": "theme",
-          "key": "󰉼"
+          "key": "󰉼 "
         },
         {
           "type": "icons",
-          "key": "󰀻"
+          "key": "󰀻 "
         },
         {
           "type": "cursor",
@@ -558,23 +558,23 @@ in
         },
         {
           "type": "cpu",
-          "key": "󰍛"
+          "key": "󰍛 "
         },
         {
           "type": "gpu",
-          "key": "󰢮"
+          "key": "󰢮 "
         },
         {
           "type": "memory",
-          "key": "󰑭"
+          "key": "󰑭 "
         },
         {
           "type": "disk",
-          "key": "󰋊"
+          "key": "󰋊 "
         },
         {
           "type": "localip",
-          "key": "󰩟"
+          "key": "󰩟 "
         },
         {
           "type": "break"
@@ -707,7 +707,7 @@ in
 
       set -g status-style                  "bg=default,fg=$fg"
       set -g status-left-length            32
-      set -g status-left                   " #[fg=$violet,bg=default]#[fg=$bg,bg=$violet,bold]#S#[fg=$violet,bg=default]#[default]  "
+      set -g status-left                   " #[fg=$violet,bg=default]#[fg=$bg,bg=$violet,bold]#S#[fg=$violet,bg=default]#[default]   "
       set -g status-right-length           28
       set -g status-right                  " #[fg=$cyan,bg=default]#[fg=$bg,bg=$cyan,bold] #[fg=$cyan,bg=default]#[default] "
 
