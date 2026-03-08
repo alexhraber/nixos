@@ -11,8 +11,7 @@
     "hyprland/workspaces"
   ],
   "modules-center": [
-    "custom/weather",
-    "clock"
+    "custom/clock"
   ],
   "modules-right": [
     "custom/net",
@@ -53,20 +52,6 @@
       "class<btop>": "",
       "class<pavucontrol>": "󰅶",
       "class<nm-connection-editor>": "󰤨"
-    }
-  },
-  "clock": {
-    "format": "{:%a %b %d  %I:%M %p}",
-    "tooltip-format": "<tt>{calendar}</tt>",
-    "calendar": {
-      "mode": "month",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#e6edf7'><b>{}</b></span>",
-        "weekdays": "<span color='#42c7ff'><b>{}</b></span>",
-        "days": "<span color='#94a3b8'>{}</span>",
-        "today": "<span color='#ffffff' background='#7c5cff'><b>{}</b></span>"
-      }
     }
   },
   "custom/net": {
@@ -143,10 +128,10 @@
     "on-click": "swaync-client -t",
     "on-click-right": "swaync-client -d"
   },
-  "custom/weather": {
-    "exec": "waybar-weather",
+  "custom/clock": {
+    "exec": "waybar-clock",
     "return-type": "json",
-    "interval": 600,
+    "interval": 30,
     "format": "{}",
     "tooltip": true
   }

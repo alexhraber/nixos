@@ -12,8 +12,7 @@ window#waybar {
 
 #custom-launcher,
 #workspaces,
-#custom-weather,
-#clock,
+#custom-clock,
 #custom-net,
 #bluetooth,
 #pulseaudio,
@@ -66,16 +65,16 @@ window#waybar {
   border: 1px solid rgba(124, 92, 255, 0.25);
 }
 
-#clock {
+#custom-clock {
   font-weight: 700;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding-left: 18px;
+  padding-right: 18px;
 }
+
 
 #custom-launcher:hover,
 #workspaces:hover,
-#custom-weather:hover,
-#clock:hover,
+#custom-clock:hover,
 #custom-net:hover,
 #bluetooth:hover,
 #custom-cpu:hover,
@@ -114,12 +113,6 @@ window#waybar {
 
 #battery.charging {
   color: #5ee6a8;
-}
-
-#custom-weather {
-  padding-left: 12px;
-  padding-right: 12px;
-  color: #42c7ff;
 }
 
 #custom-notifications.hidden {

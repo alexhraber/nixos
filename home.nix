@@ -4,7 +4,7 @@ let
   waybar-cpu     = pkgs.writeShellScriptBin "waybar-cpu"     (builtins.readFile ./waybar/scripts/cpu.sh);
   waybar-mem     = pkgs.writeShellScriptBin "waybar-mem"     (builtins.readFile ./waybar/scripts/mem.sh);
   waybar-net     = pkgs.writeShellScriptBin "waybar-net"     (builtins.readFile ./waybar/scripts/net.sh);
-  waybar-weather = pkgs.writeShellScriptBin "waybar-weather" (builtins.readFile ./waybar/scripts/weather.sh);
+  waybar-clock   = pkgs.writeShellScriptBin "waybar-clock"   (builtins.readFile ./waybar/scripts/clock.sh);
   waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
   waybar-sysmanage = pkgs.writeShellScriptBin "waybar-sysmanage" (builtins.readFile ./waybar/scripts/sysmanage.sh);
   anyrun         = pkgs.anyrun;
@@ -44,7 +44,7 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
-    waybar-weather
+    waybar-clock
     waybar-notify
     waybar-sysmanage
     wdisplays
@@ -215,7 +215,7 @@ in
       "keybind": "u"
     }
     {
-      "label": "system",
+      "label": "preferences-system",
       "action": "waybar-sysmanage",
       "text": "System",
       "keybind": "m"
@@ -252,12 +252,6 @@ in
       border-color: rgba(124, 92, 255, 0.95);
     }
 
-    #system {
-      background-image: image(url("/run/current-system/sw/share/icons/Adwaita/scalable/categories/preferences-system-symbolic.svg"));
-      background-repeat: no-repeat;
-      background-position: center 35%;
-      background-size: 52px;
-    }
   '';
 
   programs.ghostty = {
