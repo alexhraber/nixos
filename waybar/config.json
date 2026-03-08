@@ -6,73 +6,133 @@
   "margin-top": 8,
   "margin-left": 10,
   "margin-right": 10,
-
-  "modules-left": ["custom/launcher", "hyprland/workspaces"],
-  "modules-center": ["clock"],
-  "modules-right": ["custom/network", "bluetooth", "cpu", "memory", "pulseaudio", "custom/notifications"],
-
+  "modules-left": [
+    "custom/launcher",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "custom/clock"
+  ],
+  "modules-right": [
+    "custom/net",
+    "bluetooth",
+    "custom/cpu",
+    "custom/memory",
+    "pulseaudio",
+    "backlight",
+    "battery",
+    "custom/notifications"
+  ],
   "custom/launcher": {
     "format": "",
     "tooltip": false,
-    "on-click": "wofi --show drun"
+    "on-click": "anyrun",
+    "on-click-right": "wlogout --protocol layer-shell"
   },
-
   "hyprland/workspaces": {
     "disable-scroll": false,
     "all-outputs": true,
-    "format": "{icon}",
-    "format-icons": {
-      "1": "",
-      "2": "󰈹",
-      "3": "󰙯",
-      "4": "󰎄",
-      "5": "󰭹",
-      "active": "",
-      "default": ""
+    "format": "{windows}",
+    "window-rewrite-default": "",
+    "window-rewrite": {
+      "class<ghostty>": "",
+      "class<com.mitchellh.ghostty>": "",
+      "class<chromium>": "",
+      "class<chromium-browser>": "",
+      "class<Chromium-browser>": "",
+      "class<firefox>": "",
+      "class<nautilus>": "󰉋",
+      "class<org.gnome.Nautilus>": "󰉋",
+      "class<discord>": "󰙯",
+      "class<neovim>": "",
+      "class<nvim>": "",
+      "class<code>": "",
+      "class<Code>": "",
+      "class<Code - OSS>": "",
+      "class<btop>": "",
+      "class<pavucontrol>": "󰅶",
+      "class<nm-connection-editor>": "󰤨"
     }
   },
-
-  "clock": {
-    "format": "{:%a %b %d  %I:%M %p}",
-    "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>"
-  },
-
-  "custom/network": {
-    "exec": "bash -lc 'echo \"󰈀\"'",
-    "interval": 30,
-    "tooltip": false,
-    "on-click": "nm-connection-editor",
+  "custom/net": {
+    "exec": "waybar-net",
+    "return-type": "json",
+    "interval": 3,
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "ghostty -e sudo iftop",
     "on-click-right": "nm-connection-editor"
   },
-
   "bluetooth": {
     "format": "",
-    "format-disabled": "󰂲",
+    "format-disabled": "󰊲",
     "format-connected": " {num_connections}",
     "tooltip-format": "{controller_alias}"
   },
-
+  "custom/cpu": {
+    "exec": "waybar-cpu",
+    "return-type": "json",
+    "interval": 3,
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "ghostty -e btop -p 0"
+  },
+  "custom/memory": {
+    "exec": "waybar-mem",
+    "return-type": "json",
+    "interval": 5,
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "ghostty -e btop -p 1"
+  },
   "pulseaudio": {
     "format": "{icon}  {volume:>3}%",
-    "format-muted": "󰝟  muted",
+    "format-muted": "󰸈  muted",
     "format-icons": {
-      "default": ["", "", ""]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     },
     "on-click": "pavucontrol"
   },
-
-  "cpu": {
-    "format": "  {usage:>3}%"
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": [
+      "",
+      ""
+    ]
   },
-
-  "memory": {
-    "format": "  {percentage:>3}%"
+  "battery": {
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "states": {
+      "warning": 30,
+      "critical": 15
+    }
   },
-
   "custom/notifications": {
-    "format": "",
+    "exec": "waybar-notify",
+    "return-type": "json",
+    "interval": 5,
+    "format": "{}",
     "tooltip": false,
     "on-click": "swaync-client -t",
     "on-click-right": "swaync-client -d"
+  },
+  "custom/clock": {
+    "exec": "waybar-clock",
+    "return-type": "json",
+    "interval": 30,
+    "format": "{}",
+    "tooltip": true
   }
 }

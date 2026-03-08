@@ -12,13 +12,13 @@ window#waybar {
 
 #custom-launcher,
 #workspaces,
-#clock,
-#custom-network,
+#custom-clock,
+#custom-net,
 #bluetooth,
 #pulseaudio,
 #backlight,
-#cpu,
-#memory,
+#custom-cpu,
+#custom-memory,
 #battery,
 #custom-notifications {
   background: rgba(17, 21, 29, 0.84);
@@ -27,6 +27,7 @@ window#waybar {
   padding: 4px 10px;
   margin: 0 3px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: all 0.15s ease;
 }
 
 #custom-launcher {
@@ -45,33 +46,63 @@ window#waybar {
   border-radius: 10px;
   padding: 2px 8px;
   margin: 3px 3px;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
 }
 
-#workspaces button.active {
+#workspaces button.active,
+#workspaces button:checked {
   color: #ffffff;
-  background: linear-gradient(90deg, #7c5cff, #42c7ff);
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.55) 0%, rgba(66, 199, 255, 0.3) 100%);
+  border: 1px solid rgba(124, 92, 255, 0.55);
+  box-shadow: 0 2px 14px rgba(124, 92, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 #workspaces button:hover {
   color: #ffffff;
-  background: rgba(124, 92, 255, 0.18);
+  background: rgba(124, 92, 255, 0.15);
+  border: 1px solid rgba(124, 92, 255, 0.25);
 }
 
-#clock {
+#custom-clock {
   font-weight: 700;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding-left: 18px;
+  padding-right: 18px;
 }
 
-#custom-notifications:hover,
-#custom-network:hover {
-  background: rgba(255, 255, 255, 0.06);
+
+#custom-launcher:hover,
+#workspaces:hover,
+#custom-clock:hover,
+#custom-net:hover,
+#bluetooth:hover,
+#custom-cpu:hover,
+#custom-memory:hover,
+#pulseaudio:hover,
+#custom-notifications:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(124, 92, 255, 0.35);
+  transition: all 0.15s ease;
 }
 
-#pulseaudio,
-#cpu,
-#memory {
+#custom-net {
+  min-width: 180px;
+}
+
+#custom-cpu,
+#custom-memory {
   min-width: 88px;
+}
+
+#custom-cpu.warning,
+#custom-memory.warning {
+  color: #ffd166;
+}
+
+#custom-cpu.critical,
+#custom-memory.critical {
+  color: #ff6b81;
 }
 
 #pulseaudio.muted,
@@ -84,12 +115,23 @@ window#waybar {
   color: #5ee6a8;
 }
 
+#custom-notifications.hidden {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
 tooltip {
   background: rgba(17, 21, 29, 0.96);
   border: 1px solid #2a3447;
   border-radius: 12px;
+  padding: 4px;
 }
 
 tooltip label {
   color: #e6edf7;
+  font-family: "Source Code Pro", monospace;
+  font-size: 13px;
 }

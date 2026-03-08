@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./sddm-minimal.nix
+    ./tuigreet.nix
     <home-manager/nixos>
   ];
 
@@ -81,6 +81,7 @@
     usbutils
     pciutils
     lm_sensors
+    iftop
 
     git
     gh
@@ -172,6 +173,22 @@
 
   security.rtkit.enable = true;
 
+  security.sudo.extraRules = [
+    {
+      users = [ "arx" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/iftop";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   users.users.arx = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" ];
@@ -180,6 +197,7 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "bak";
   home-manager.users.arx = import ./home.nix;
 
   system.stateVersion = "25.11";

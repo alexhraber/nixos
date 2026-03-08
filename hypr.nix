@@ -2,7 +2,7 @@
 
 let
   terminal = "ghostty";
-  launcher = "wofi --show drun";
+  launcher = "anyrun";
   browser = "chromium";
   fileManager = "nautilus";
   mod = "SUPER";
@@ -29,7 +29,9 @@ in
   ];
 
   exec-once = [
-    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+    "dbus-update-activation-environment --systemd --all"
+    "systemctl --user import-environment HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+    "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0"
     "swaync"
     "bash -lc 'WALL=\"$HOME/.config/wallpapers/main.png\"; if [ -f \"$WALL\" ]; then exec swaybg -i \"$WALL\" -m fill; else exec swaybg -c 0d1017; fi'"
   ];
@@ -90,7 +92,7 @@ in
       "layers, 1, 4, easeOutQuint"
       "layersIn, 1, 4, easeOutQuint, fade"
       "layersOut, 1, 2, smoothIn, fade"
-      "workspaces, 1, 5, easeOutQuint, slide"
+      "workspaces, 1, 5, easeOutQuint, slidevert"
     ];
   };
 
@@ -152,7 +154,7 @@ in
     "$mod, SPACE, exec, $menu"
     "$mod, B, exec, ${browser}"
     "$mod, E, exec, ${fileManager}"
-    "$mod SHIFT, L, exec, hyprlock"
+    "$mod, L, exec, hyprlock"
     "$mod SHIFT, T, exec, ${terminal} -e btop"
 
     # Window management
@@ -252,6 +254,6 @@ in
     "size 980 700,class:^(pavucontrol)$"
     "suppressevent maximize, class:.*"
     "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
-    "scrolltouchpad 0.2, class:^com.mitchellh.ghostty$"
+"scrolltouchpad 0.2, class:^com.mitchellh.ghostty$"
   ];
 }

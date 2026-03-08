@@ -1,5 +1,14 @@
 { config, pkgs, lib, ... }:
 
+let
+  waybar-cpu     = pkgs.writeShellScriptBin "waybar-cpu"     (builtins.readFile ./waybar/scripts/cpu.sh);
+  waybar-mem     = pkgs.writeShellScriptBin "waybar-mem"     (builtins.readFile ./waybar/scripts/mem.sh);
+  waybar-net     = pkgs.writeShellScriptBin "waybar-net"     (builtins.readFile ./waybar/scripts/net.sh);
+  waybar-clock   = pkgs.writeShellScriptBin "waybar-clock"   (builtins.readFile ./waybar/scripts/clock.sh);
+  waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
+  waybar-sysmanage = pkgs.writeShellScriptBin "waybar-sysmanage" (builtins.readFile ./waybar/scripts/sysmanage.sh);
+  anyrun         = pkgs.anyrun;
+in
 {
   home.stateVersion = "25.11";
 
@@ -30,6 +39,17 @@
     nwg-look
     yazi
     fastfetch
+    lm_sensors
+    jq
+    waybar-cpu
+    waybar-mem
+    waybar-net
+    waybar-clock
+    waybar-notify
+    waybar-sysmanage
+    wdisplays
+    anyrun
+    wlogout
   ];
 
   home.sessionVariables = {
@@ -88,6 +108,151 @@
     enable = true;
     style = builtins.readFile ./wofi/style.css;
   };
+
+  xdg.configFile."anyrun/config.ron".text = ''
+    Config(
+      plugins: [
+        "${anyrun}/lib/libapplications.so",
+        "${anyrun}/lib/librink.so",
+      ],
+      width: Fraction(0.38),
+      y_offset: 350,
+      x_offset: 0,
+      hide_icons: false,
+      ignore_exclusive_zones: false,
+      layer: Overlay,
+      hide_plugin_info: true,
+      close_on_click: false,
+      show_results_immediately: true,
+      max_entries: Some(16),
+    )
+  '';
+
+  xdg.configFile."anyrun/applications.ron".text = ''
+    Config(
+      desktop_actions: false,
+      max_entries: Some(5),
+      terminal: Some("ghostty"),
+    )
+  '';
+
+  xdg.configFile."anyrun/rink.ron".text = ''
+    Config(
+      max_entries: Some(3),
+    )
+  '';
+
+  xdg.configFile."anyrun/style.css".text = ''
+    * {
+      font-family: "Source Code Pro", monospace;
+      font-size: 15px;
+      color: #e6edf7;
+    }
+    window, #window {
+      background: rgba(17, 21, 29, 0.97);
+      border: 1px solid rgba(42, 52, 71, 0.95);
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+    }
+    entry, #entry {
+      background: rgba(30, 38, 54, 0.9);
+      border: 1px solid rgba(42, 52, 71, 1.0);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin: 4px 4px 8px 4px;
+      color: #e6edf7;
+      font-size: 16px;
+    }
+    entry:focus, #entry:focus {
+      border-color: rgba(124, 92, 255, 0.6);
+    }
+    list { background: transparent; }
+    row {
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: transparent;
+      margin: 1px 4px;
+    }
+    row:selected {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.28) 0%, rgba(66, 199, 255, 0.14) 100%);
+      border: 1px solid rgba(124, 92, 255, 0.38);
+    }
+    #plugin { color: rgba(124, 92, 255, 0.6); font-size: 11px; padding: 2px 10px; }
+    label { color: #e6edf7; }
+    image { margin-right: 8px; }
+  '';
+
+  xdg.configFile."wlogout/layout".text = ''
+    {
+      "label": "lock",
+      "action": "hyprlock",
+      "text": "Lock",
+      "keybind": "l"
+    }
+    {
+      "label": "suspend",
+      "action": "systemctl suspend",
+      "text": "Sleep",
+      "keybind": "s"
+    }
+    {
+      "label": "logout",
+      "action": "hyprctl dispatch exit 0",
+      "text": "Logout",
+      "keybind": "e"
+    }
+    {
+      "label": "reboot",
+      "action": "systemctl reboot",
+      "text": "Reboot",
+      "keybind": "r"
+    }
+    {
+      "label": "shutdown",
+      "action": "systemctl poweroff",
+      "text": "Shutdown",
+      "keybind": "u"
+    }
+    {
+      "label": "preferences-system",
+      "action": "waybar-sysmanage",
+      "text": "System",
+      "keybind": "m"
+    }
+  '';
+
+  xdg.configFile."wlogout/style.css".text = ''
+    * { background-image: none; box-shadow: none; }
+
+    window {
+      background-color: rgba(13, 16, 23, 0.92);
+      font-family: "Source Code Pro", monospace;
+    }
+
+    button {
+      color: #e6edf7;
+      background-color: rgba(17, 21, 29, 0.85);
+      border: 1px solid rgba(42, 52, 71, 0.9);
+      border-radius: 16px;
+      margin: 20px;
+      padding: 50px 80px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.35) 0%, rgba(66, 199, 255, 0.18) 100%);
+      border-color: rgba(124, 92, 255, 0.75);
+      color: #ffffff;
+    }
+
+    button:focus {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.45) 0%, rgba(66, 199, 255, 0.22) 100%);
+      border-color: rgba(124, 92, 255, 0.95);
+    }
+
+  '';
 
   programs.ghostty = {
     enable = true;
@@ -173,7 +338,7 @@
       };
 
       git_branch = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #7c5cff";
         format = "[on](dimmed #94a3b8) [$symbol$branch]($style) ";
       };
@@ -195,31 +360,31 @@
       };
 
       rust = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #f38ba8";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       golang = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #8bd5ff";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       nodejs = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #5ee6a8";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       python = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #ffd166";
         format = "[via](dimmed #94a3b8) [$symbol$version]($style) ";
       };
 
       nix_shell = {
-        symbol = " ";
+        symbol = " ";
         style = "bold #7dcfff";
         format = "[in](dimmed #94a3b8) [$symbol$state( $name)]($style) ";
         impure_msg = "[impure](bold #ff6b81)";
@@ -278,7 +443,7 @@
         "break",
         {
           "type": "title",
-          "key": "",
+          "key": "",
           "format": "{##cba6f7}{user-name}{##94e2d5}@{##42c7ff}{host-name}{#}"
         },
         {
@@ -287,7 +452,7 @@
         },
         {
           "type": "os",
-          "key": ""
+          "key": ""
         },
         {
           "type": "host",
@@ -295,7 +460,7 @@
         },
         {
           "type": "kernel",
-          "key": ""
+          "key": ""
         },
         {
           "type": "uptime",
@@ -307,11 +472,11 @@
         },
         {
           "type": "shell",
-          "key": ""
+          "key": ""
         },
         {
           "type": "terminal",
-          "key": ""
+          "key": ""
         },
         {
           "type": "wm",
@@ -364,6 +529,40 @@
       ]
     }
   '';
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "Default";
+      theme_background = false;
+      truecolor = true;
+      force_tty = false;
+      graph_symbol = "braille";
+      update_ms = 1000;
+      proc_sorting = "cpu lazy";
+      proc_reversed = false;
+      proc_tree = false;
+      proc_gradient = true;
+      proc_per_core = true;
+      cpu_graph_upper = "total";
+      cpu_graph_lower = "user";
+      cpu_invert_lower = true;
+      cpu_single_graph = false;
+      cpu_bottom = false;
+      mem_graphs = true;
+      show_swap = true;
+      swap_disk = true;
+      show_disks = true;
+      net_download = 100;
+      net_upload = 100;
+      net_auto = true;
+      net_sync = false;
+      # Preset 0: CPU Monster — big cpu + cores + proc by cpu, hide mem/net/disk
+      preset_0 = "cpu_single:false cpu_bottom:false show_cpu:true show_corebox:true show_mem:false show_net:false show_disks:false show_io_stat:false show_gpu:false show_proc:true proc_sorting:cpu lazy proc_per_core:true";
+      # Preset 1: Memory Monster — mem + disks + proc by mem, hide cpu/net
+      preset_1 = "cpu_single:false cpu_bottom:false show_cpu:false show_corebox:false show_mem:true show_net:false show_disks:true show_io_stat:true show_gpu:false show_proc:true proc_sorting:mem proc_mem_bytes:true";
+    };
+  };
 
   services.swaync.enable = true;
 
