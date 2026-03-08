@@ -1,10 +1,12 @@
 { config, pkgs, lib, ... }:
 
 let
-  waybar-cpu = pkgs.writeShellScriptBin "waybar-cpu" (builtins.readFile ./waybar/scripts/cpu.sh);
-  waybar-mem = pkgs.writeShellScriptBin "waybar-mem" (builtins.readFile ./waybar/scripts/mem.sh);
-  waybar-net = pkgs.writeShellScriptBin "waybar-net" (builtins.readFile ./waybar/scripts/net.sh);
-  anyrun = pkgs.anyrun;
+  waybar-cpu     = pkgs.writeShellScriptBin "waybar-cpu"     (builtins.readFile ./waybar/scripts/cpu.sh);
+  waybar-mem     = pkgs.writeShellScriptBin "waybar-mem"     (builtins.readFile ./waybar/scripts/mem.sh);
+  waybar-net     = pkgs.writeShellScriptBin "waybar-net"     (builtins.readFile ./waybar/scripts/net.sh);
+  waybar-weather = pkgs.writeShellScriptBin "waybar-weather" (builtins.readFile ./waybar/scripts/weather.sh);
+  waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
+  anyrun         = pkgs.anyrun;
 in
 {
   home.stateVersion = "25.11";
@@ -41,7 +43,10 @@ in
     waybar-cpu
     waybar-mem
     waybar-net
+    waybar-weather
+    waybar-notify
     anyrun
+    wlogout
   ];
 
   home.sessionVariables = {
@@ -108,7 +113,7 @@ in
         "${anyrun}/lib/librink.so",
       ],
       width: Fraction(0.38),
-      y_offset: 220,
+      y_offset: 350,
       x_offset: 0,
       hide_icons: false,
       ignore_exclusive_zones: false,
@@ -134,21 +139,12 @@ in
     )
   '';
 
-  xdg.configFile."anyrun/nix_run.ron".text = ''
-    Config(
-      prefix: ":nix ",
-      max_entries: 3,
-      shell: "bash",
-    )
-  '';
-
   xdg.configFile."anyrun/style.css".text = ''
     * {
       font-family: "Source Code Pro", monospace;
       font-size: 15px;
       color: #e6edf7;
     }
-
     window, #window {
       background: rgba(17, 21, 29, 0.97);
       border: 1px solid rgba(42, 52, 71, 0.95);
@@ -156,7 +152,6 @@ in
       padding: 10px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
     }
-
     entry, #entry {
       background: rgba(30, 38, 54, 0.9);
       border: 1px solid rgba(42, 52, 71, 1.0);
@@ -166,39 +161,86 @@ in
       color: #e6edf7;
       font-size: 16px;
     }
-
     entry:focus, #entry:focus {
       border-color: rgba(124, 92, 255, 0.6);
     }
-
-    list {
-      background: transparent;
-    }
-
+    list { background: transparent; }
     row {
       padding: 7px 10px;
       border-radius: 10px;
       background: transparent;
       margin: 1px 4px;
     }
-
     row:selected {
       background: linear-gradient(135deg, rgba(124, 92, 255, 0.28) 0%, rgba(66, 199, 255, 0.14) 100%);
       border: 1px solid rgba(124, 92, 255, 0.38);
     }
+    #plugin { color: rgba(124, 92, 255, 0.6); font-size: 11px; padding: 2px 10px; }
+    label { color: #e6edf7; }
+    image { margin-right: 8px; }
+  '';
 
-    #plugin {
-      color: rgba(124, 92, 255, 0.6);
-      font-size: 11px;
-      padding: 2px 10px;
+  xdg.configFile."wlogout/layout".text = ''
+    {
+      "label": "lock",
+      "action": "hyprlock",
+      "text": "Lock",
+      "keybind": "l"
+    }
+    {
+      "label": "suspend",
+      "action": "systemctl suspend",
+      "text": "Sleep",
+      "keybind": "s"
+    }
+    {
+      "label": "logout",
+      "action": "hyprctl dispatch exit 0",
+      "text": "Logout",
+      "keybind": "e"
+    }
+    {
+      "label": "reboot",
+      "action": "systemctl reboot",
+      "text": "Reboot",
+      "keybind": "r"
+    }
+    {
+      "label": "shutdown",
+      "action": "systemctl poweroff",
+      "text": "Shutdown",
+      "keybind": "u"
+    }
+  '';
+
+  xdg.configFile."wlogout/style.css".text = ''
+    * { background-image: none; box-shadow: none; }
+
+    window {
+      background-color: rgba(13, 16, 23, 0.92);
+      font-family: "Source Code Pro", monospace;
     }
 
-    label {
+    button {
       color: #e6edf7;
+      background-color: rgba(17, 21, 29, 0.85);
+      border: 1px solid rgba(42, 52, 71, 0.9);
+      border-radius: 16px;
+      margin: 20px;
+      padding: 50px 80px;
+      font-size: 14px;
+      transition: all 0.2s ease;
     }
 
-    image {
-      margin-right: 8px;
+    button:hover {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.35) 0%, rgba(66, 199, 255, 0.18) 100%);
+      border-color: rgba(124, 92, 255, 0.75);
+      color: #ffffff;
+    }
+
+    button:focus {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.45) 0%, rgba(66, 199, 255, 0.22) 100%);
+      border-color: rgba(124, 92, 255, 0.95);
     }
   '';
 

@@ -1,0 +1,75 @@
+* {
+  font:             "Source Code Pro 15";
+  text-color:       #e6edf7;
+  background-color: transparent;
+  border-color:     transparent;
+}
+
+window {
+  background-color: #111520f7;
+  border:           1px solid #2a3447f2;
+  border-radius:    16px;
+  padding:          10px;
+  width:            38%;
+  location:         north;
+  anchor:           north;
+  x-offset:         0px;
+  y-offset:         350px;
+  box-shadow:       0px 12px 40px #00000099;
+}
+
+inputbar {
+  background-color: #1e2636e6;
+  border:           1px solid #2a3447;
+  border-radius:    10px;
+  padding:          10px 14px;
+  margin:           4px 4px 8px 4px;
+  children:         [entry];
+}
+
+entry {
+  placeholder:       "  search...";
+  placeholder-color: #94a3b899;
+  cursor:            text;
+}
+
+listview {
+  background-color: transparent;
+  border:           none;
+  scrollbar:        false;
+  spacing:          0px;
+  lines:            12;
+}
+
+element {
+  background-color: transparent;
+  border:           1px solid transparent;
+  border-radius:    10px;
+  padding:          7px 10px;
+  margin:           1px 4px;
+  orientation:      horizontal;
+  children:         [element-icon, element-text];
+}
+
+element selected {
+  background-color: #7c5cff47;
+  border-color:     #7c5cff61;
+}
+
+element-icon {
+  size:         20px;
+  margin:       0px 10px 0px 2px;
+  vertical-align: 0.5;
+}
+
+element-text {
+  vertical-align: 0.5;
+  text-color:     inherit;
+}
+
+scrollbar {
+  width:        4px;
+  background-color: transparent;
+  handle-color: #7c5cff;
+  border-radius: 2px;
+}

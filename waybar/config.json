@@ -11,6 +11,7 @@
     "hyprland/workspaces"
   ],
   "modules-center": [
+    "custom/weather",
     "clock"
   ],
   "modules-right": [
@@ -26,7 +27,8 @@
   "custom/launcher": {
     "format": "",
     "tooltip": false,
-    "on-click": "anyrun"
+    "on-click": "anyrun",
+    "on-click-right": "wlogout --protocol layer-shell"
   },
   "hyprland/workspaces": {
     "disable-scroll": false,
@@ -133,9 +135,19 @@
     }
   },
   "custom/notifications": {
-    "format": "",
+    "exec": "waybar-notify",
+    "return-type": "json",
+    "interval": 5,
+    "format": "{}",
     "tooltip": false,
     "on-click": "swaync-client -t",
     "on-click-right": "swaync-client -d"
+  },
+  "custom/weather": {
+    "exec": "waybar-weather",
+    "return-type": "json",
+    "interval": 600,
+    "format": "{}",
+    "tooltip": true
   }
 }

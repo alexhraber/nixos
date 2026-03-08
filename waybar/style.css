@@ -12,6 +12,7 @@ window#waybar {
 
 #custom-launcher,
 #workspaces,
+#custom-weather,
 #clock,
 #custom-net,
 #bluetooth,
@@ -73,6 +74,7 @@ window#waybar {
 
 #custom-launcher:hover,
 #workspaces:hover,
+#custom-weather:hover,
 #clock:hover,
 #custom-net:hover,
 #bluetooth:hover,
@@ -112,6 +114,20 @@ window#waybar {
 
 #battery.charging {
   color: #5ee6a8;
+}
+
+#custom-weather {
+  padding-left: 12px;
+  padding-right: 12px;
+  color: #42c7ff;
+}
+
+#custom-notifications.hidden {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
 }
 
 tooltip {
