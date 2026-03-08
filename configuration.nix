@@ -16,7 +16,7 @@
 
   console = {
     earlySetup = true;
-    font = "${pkgs.kbd}/share/consolefonts/LatGrkCyr-12x22.psfu.gz";
+    font = "${pkgs.kbd}/share/consolefonts/solar24x32.psfu.gz";
     packages = [ pkgs.kbd ];
     colors = [
       "040814"
