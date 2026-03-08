@@ -554,7 +554,7 @@ in
         },
         {
           "type": "cursor",
-          "key": "󰇀"
+          "key": "󰇀 "
         },
         {
           "type": "cpu",
