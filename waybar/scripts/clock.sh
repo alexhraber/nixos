@@ -108,5 +108,5 @@ TOOLTIP="${CALENDAR}
 
 ${WEATHER_TT}"
 
-TEXT="${TIME}    ${WEATHER_TEXT}"
+TEXT="${TIME}  ${WEATHER_TEXT}"
 jq -cn --arg t "$TEXT" --arg tt "$TOOLTIP" '{text:$t,tooltip:$tt,class:"normal"}'
