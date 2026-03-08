@@ -119,15 +119,16 @@ in
         "${anyrun}/lib/libapplications.so",
         "${anyrun}/lib/librink.so",
       ],
-      width: Fraction(0.46),
-      y_offset: 0,
-      x_offset: 0,
+      x: Fraction(0.5),
+      y: Fraction(0.5),
+      width: Absolute(600),
+      height: Absolute(150),
       hide_icons: false,
       ignore_exclusive_zones: false,
       layer: Overlay,
       hide_plugin_info: true,
       close_on_click: true,
-      show_results_immediately: false,
+      show_results_immediately: true,
       max_entries: Some(5),
     )
   '';
@@ -149,24 +150,26 @@ in
   xdg.configFile."anyrun/style.css".text = ''
     * {
       font-family: "Source Code Pro", monospace;
-      font-size: 15px;
+      font-size: 14px;
       color: #e6edf7;
     }
     window, #window {
-      background: rgba(13, 16, 23, 0.97);
-      border: 1.5px solid rgba(124, 92, 255, 0.5);
-      border-radius: 20px;
-      padding: 14px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 0 48px rgba(124, 92, 255, 0.14);
+      min-width: 600px;
+      min-height: 150px;
+      background: linear-gradient(135deg, rgba(13, 16, 23, 0.92) 0%, rgba(17, 21, 29, 0.88) 100%);
+      border: 1.5px solid rgba(124, 92, 255, 0.42);
+      border-radius: 22px;
+      padding: 10px;
+      box-shadow: 0 28px 72px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(230, 237, 247, 0.06);
     }
     entry, #entry {
-      background: rgba(22, 28, 42, 0.95);
-      border: 1.5px solid rgba(124, 92, 255, 0.45);
-      border-radius: 12px;
-      padding: 13px 18px;
-      margin: 6px 6px 12px 6px;
+      background: rgba(22, 28, 42, 0.82);
+      border: 1.5px solid rgba(124, 92, 255, 0.34);
+      border-radius: 14px;
+      padding: 8px 14px;
+      margin: 0 0 8px 0;
       color: #e6edf7;
-      font-size: 18px;
+      font-size: 16px;
       caret-color: #7c5cff;
     }
     entry:focus, #entry:focus {
@@ -175,18 +178,18 @@ in
     }
     list { background: transparent; }
     row {
-      padding: 10px 14px;
+      padding: 6px 10px;
       border-radius: 12px;
-      background: transparent;
-      margin: 2px 6px;
+      background: rgba(255, 255, 255, 0.02);
+      margin: 2px 0;
     }
     row:selected {
       background: linear-gradient(135deg, rgba(124, 92, 255, 0.32) 0%, rgba(66, 199, 255, 0.16) 100%);
       border: 1px solid rgba(124, 92, 255, 0.5);
     }
-    #plugin { color: rgba(124, 92, 255, 0.75); font-size: 11px; padding: 2px 10px; font-weight: bold; letter-spacing: 0.06em; }
+    #plugin { color: rgba(124, 92, 255, 0.75); font-size: 10px; padding: 1px 8px; font-weight: bold; letter-spacing: 0.05em; }
     label { color: #e6edf7; }
-    image { margin-right: 10px; }
+    image { margin-right: 8px; }
   '';
 
   xdg.configFile."wlogout/layout".text = ''
@@ -223,36 +226,42 @@ in
     {
       "label": "preferences-system",
       "action": "waybar-sysmanage",
-      "text": "󰒓",
+      "text": "Manage",
       "keybind": "m"
     }
   '';
 
   xdg.configFile."wlogout/style.css".text = ''
-    * { box-shadow: none; }
+    * {
+      box-shadow: none;
+      background-image: none;
+    }
 
     window {
-      background-color: rgba(13, 16, 23, 0.93);
+      background-color: rgba(7, 10, 15, 0.5);
+      background-image: linear-gradient(135deg, rgba(7, 10, 15, 0.78) 0%, rgba(13, 16, 23, 0.62) 100%);
       font-family: "Source Code Pro", monospace;
     }
 
     button {
-      color: #3a4658;
-      background-color: rgba(17, 21, 29, 0.65);
+      color: #dce6f4;
+      background-color: rgba(17, 21, 29, 0.52);
+      background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
       background-repeat: no-repeat;
-      background-position: center 32%;
-      background-size: 52px;
-      border: 1px solid rgba(42, 52, 71, 0.7);
-      border-radius: 20px;
-      margin: 18px;
-      min-width: 120px;
-      min-height: 150px;
-      padding-top: 100px;
-      padding-bottom: 18px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      background-position: center 26px;
+      background-size: 42px;
+      border: 1px solid rgba(124, 140, 164, 0.18);
+      border-radius: 24px;
+      margin: 14px;
+      min-width: 132px;
+      min-height: 156px;
+      padding-top: 92px;
+      padding-bottom: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
       transition: all 0.2s ease;
     }
 
@@ -274,40 +283,48 @@ in
       background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
     }
     #preferences-system {
-      font-size: 36px;
-      padding-top: 0;
-      padding-bottom: 0;
+      background-image: image(url("${pkgs.adwaita-icon-theme}/share/icons/Adwaita/symbolic/categories/preferences-system-symbolic.svg"));
+      background-size: 38px;
+      font-size: 11px;
+      padding-top: 92px;
+      padding-bottom: 20px;
     }
 
     #lock:hover {
       color: #42c7ff;
-      border-color: rgba(66, 199, 255, 0.65);
-      background-color: rgba(66, 199, 255, 0.1);
+      border-color: rgba(66, 199, 255, 0.75);
+      background-color: rgba(66, 199, 255, 0.12);
+      box-shadow: 0 26px 52px rgba(5, 17, 29, 0.45), 0 0 0 1px rgba(66, 199, 255, 0.18);
     }
     #suspend:hover {
       color: #5ee6a8;
-      border-color: rgba(94, 230, 168, 0.65);
-      background-color: rgba(94, 230, 168, 0.09);
+      border-color: rgba(94, 230, 168, 0.75);
+      background-color: rgba(94, 230, 168, 0.1);
+      box-shadow: 0 26px 52px rgba(7, 20, 17, 0.45), 0 0 0 1px rgba(94, 230, 168, 0.18);
     }
     #logout:hover {
       color: #9a7bff;
-      border-color: rgba(124, 92, 255, 0.75);
-      background-color: rgba(124, 92, 255, 0.13);
+      border-color: rgba(124, 92, 255, 0.82);
+      background-color: rgba(124, 92, 255, 0.14);
+      box-shadow: 0 26px 52px rgba(16, 11, 31, 0.45), 0 0 0 1px rgba(124, 92, 255, 0.22);
     }
     #reboot:hover {
       color: #ffd166;
-      border-color: rgba(255, 209, 102, 0.65);
-      background-color: rgba(255, 209, 102, 0.09);
+      border-color: rgba(255, 209, 102, 0.72);
+      background-color: rgba(255, 209, 102, 0.1);
+      box-shadow: 0 26px 52px rgba(29, 20, 7, 0.45), 0 0 0 1px rgba(255, 209, 102, 0.18);
     }
     #shutdown:hover {
       color: #ff6b81;
-      border-color: rgba(255, 107, 129, 0.65);
-      background-color: rgba(255, 107, 129, 0.11);
+      border-color: rgba(255, 107, 129, 0.76);
+      background-color: rgba(255, 107, 129, 0.12);
+      box-shadow: 0 26px 52px rgba(29, 8, 13, 0.45), 0 0 0 1px rgba(255, 107, 129, 0.2);
     }
     #preferences-system:hover {
       color: #e6edf7;
-      border-color: rgba(58, 70, 88, 0.9);
-      background-color: rgba(58, 70, 88, 0.25);
+      border-color: rgba(148, 163, 184, 0.42);
+      background-color: rgba(58, 70, 88, 0.22);
+      box-shadow: 0 26px 52px rgba(13, 16, 23, 0.45), 0 0 0 1px rgba(148, 163, 184, 0.14);
     }
   '';
 
