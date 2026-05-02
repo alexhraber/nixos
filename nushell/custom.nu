@@ -15,6 +15,8 @@ alias l = ls
 alias c = clear
 alias r = reset
 alias q = exit
+alias virc = sudo vi /etc/nixos/nushell/custom.nu
+alias crc = sudo cat /etc/nixos/nushell/custom.nu
 
 alias nrs = sudo nixos-rebuild switch
 alias nrt = sudo nixos-rebuild test

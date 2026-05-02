@@ -11,6 +11,7 @@
   boot.loader.systemd-boot.consoleMode = "1";
   boot.loader.systemd-boot.editor = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "kvm-amd" ];
   boot.plymouth.enable = true;
   boot.plymouth.theme = "breeze";
 
@@ -49,6 +50,8 @@
     xwayland.enable = true;
   };
 
+  virtualisation.libvirtd.enable = true;
+
   virtualisation = {
     containers.enable = true;
     podman = {
@@ -63,7 +66,8 @@
     role = "server";
   };
 
-  networking.firewall.allowedTCPPorts = [ 6443 ];
+  networking.firewall.allowedTCPPorts =
+  [ 6443 8080 ];
 
   environment.systemPackages = with pkgs; [
     nodejs
@@ -135,6 +139,7 @@
     gnutar
     rsync
     lsof
+    bubblewrap
 
     nushell
     starship
@@ -222,7 +227,7 @@
 
   users.users.arx = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" "kvm" "libvirtd" ];
     shell = pkgs.nushell;
   };
 
