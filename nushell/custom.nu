@@ -44,7 +44,8 @@ def shell-level [] {
 }
 
 if $nu.is-interactive and (($env.TMUX? | default "") == "") and (not (is-ssh-session)) {
-  exec tmux new-session -A -s main
+  let session = $"ghostty-(random uuid | str substring 0..7)"
+  exec tmux new-session -s $session
 }
 
 if $nu.is-interactive {

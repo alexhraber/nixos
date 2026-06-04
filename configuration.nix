@@ -77,6 +77,7 @@
     python3
 
     ghostty
+    zed-editor
     chromium
     nautilus
     wofi
@@ -140,6 +141,8 @@
     rsync
     lsof
     bubblewrap
+    clang
+    llvm
 
     nushell
     starship
