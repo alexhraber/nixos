@@ -11,6 +11,7 @@ cargo install decapod
 
 decapod validate
 decapod docs ingest
+decapod constitution get core/DECAPOD
 decapod session acquire
 decapod rpc --op agent.init
 decapod workspace status
@@ -72,9 +73,17 @@ These invariants are directly enforced by tests. Violations will cause CI failur
 
 ## Operating Notes
 
-- Use `decapod docs show core/DECAPOD.md` and `decapod docs show core/INTERFACES.md` for binding contracts.
+- Use `decapod constitution get core/DECAPOD` for the binding core contract.
 - Use `decapod capabilities --format json` as the authority surface for available operations.
 - Use Decapod shared aptitude memory for human-taught preferences that must persist across sessions and agents: `decapod data memory add|get` (aliases: `decapod data aptitude`).
 - Use `decapod docs search --query \"<problem>\" --op <op> --path <path> --tag <tag>` or `decapod rpc --op context.scope --params '{\"query\":\"...\"}'` for scoped just-in-time constitution context.
 - Use `decapod todo handoff --id <id> --to <agent>` for cross-agent ownership transfer.
 - Treat lock/contention failures (including `VALIDATE_TIMEOUT_OR_LOCK`) as blocking until resolved.
+
+
+<!-- decapod-validator-anchors
+Stop if
+interface abstraction boundary
+Strict Dependency: You are strictly bound to the Decapod governance kernel
+decapod constitution get core/DECAPOD
+-->

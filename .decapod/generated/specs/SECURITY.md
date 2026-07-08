@@ -3,11 +3,11 @@
 ## Threat Model
 ```mermaid
 flowchart LR
-  U[User/Client] --> A[Application Boundary]
-  A --> D[(Data Stores)]
-  A --> X[External Dependencies]
-  I[Identity Provider] --> A
-  A --> L[Audit Logs]
+   U[User/Client] --> A[Application Boundary]
+   A --> D[(Data Stores)]
+   A --> X[External Dependencies]
+   I[Identity Provider] --> A
+   A --> L[Audit Logs]
 ```
 
 ## STRIDE Table
@@ -51,8 +51,8 @@ flowchart LR
 ## Secrets Management
 | Secret | Source | Rotation | Consumer |
 |---|---|---|---|
-| API credentials | secret manager/env | periodic | runtime services |
-| Signing keys | HSM/KMS/local secure store | periodic | release pipeline |
+| External service auth material | managed runtime configuration | periodic | runtime services |
+| Artifact signing material | managed signing service/local secure store | periodic | release pipeline |
 
 ## Security Testing
 | Test Type | Cadence | Tooling |
@@ -71,3 +71,11 @@ flowchart LR
 - [ ] Auth/authz tests pass.
 - [ ] Dependency vulnerability scan reviewed.
 - [ ] No unresolved critical/high security findings.
+
+## Strongest Security Primitives
+Describe the security primitives and security controls implemented in this repository.
+
+## Security Practices
+- **Least Privilege**: Ensure minimal access permissions for all subsystems and roles.
+- **Input Validation**: Strictly validate all inputs at trust boundaries.
+- **Secure Storage**: Encrypt sensitive data at rest and in transit.

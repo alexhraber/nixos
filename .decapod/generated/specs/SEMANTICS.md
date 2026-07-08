@@ -11,12 +11,6 @@ stateDiagram-v2
   Verified --> [*]
 ```
 
-| From | Event | To | Guard | Side Effect |
-|---|---|---|---|---|
-| Draft | start | InProgress | owner assigned | emit state change |
-| InProgress | validate_pass | Verified | all blocking gates pass | persist receipt hash |
-| InProgress | dependency_blocked | Blocked | external dependency unavailable | emit alert event |
-
 ## Invariants
 | Invariant | Type | Validation |
 |---|---|---|

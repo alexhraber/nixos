@@ -8,6 +8,15 @@ let
   waybar-notify  = pkgs.writeShellScriptBin "waybar-notify"  (builtins.readFile ./waybar/scripts/notify.sh);
   waybar-sysmanage = pkgs.writeShellScriptBin "waybar-sysmanage" (builtins.readFile ./waybar/scripts/sysmanage.sh);
   anyrun         = pkgs.anyrun;
+  rustToolchainSpec = (builtins.fromTOML (builtins.readFile ./rust-toolchain.toml)).toolchain;
+  rustToolchain = rustToolchainSpec.channel;
+  rustToolchainProfile = rustToolchainSpec.profile or "minimal";
+  rustToolchainHost = "x86_64-unknown-linux-gnu";
+  rustComponents = rustToolchainSpec.components or [];
+  rustComponentFlags =
+    lib.concatMapStringsSep " "
+      (component: "--component ${lib.escapeShellArg component}")
+      rustComponents;
 
 in
 {
@@ -62,6 +71,28 @@ in
     TERMINAL = "ghostty";
     BROWSER = "chromium";
   };
+
+  home.sessionPath = [
+    "$HOME/.rustup/toolchains/${rustToolchain}-${rustToolchainHost}/bin"
+    "$HOME/.cargo/bin"
+  ];
+
+  home.activation.installRustToolchain = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    rustup_bin="${pkgs.rustup}/bin/rustup"
+    toolchain="${rustToolchain}"
+    host="${rustToolchainHost}"
+    toolchain_dir="$HOME/.rustup/toolchains/$toolchain-$host"
+
+    if [ ! -x "$toolchain_dir/bin/rustc" ] || \
+       [ ! -x "$toolchain_dir/bin/clippy-driver" ] || \
+       [ ! -x "$toolchain_dir/bin/rustfmt" ]; then
+      "$rustup_bin" toolchain install "$toolchain" \
+        --profile ${lib.escapeShellArg rustToolchainProfile} \
+        ${rustComponentFlags}
+    fi
+
+    "$rustup_bin" default "$toolchain"
+  '';
 
   gtk = {
     enable = true;

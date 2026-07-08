@@ -3,6 +3,27 @@
 ## Validation Philosophy
 > Validation is a release gate, not documentation theater.
 
+## Validation Harness
+Define the test and verification harness used by this project.
+Key features:
+- **Automated Tests**: Unit and integration test suites.
+- **Linting & Formatting**: Static analysis tools and checkers.
+- **CI/CD Integration**: Automatic execution of validation gates on push.
+
+## Generated Spec Refresh Gates
+Decapod must keep generated specs synchronized at governance pressure points. When repository surfaces change, validation should either fail with a concrete refresh instruction or, when explicitly requested through a refresh path, regenerate the existing spec files and update the manifest fingerprint. Refresh must update the canonical spec set rather than creating one-off analysis files.
+
+Refresh-capable paths:
+- `decapod validate --refresh-specs`
+- `decapod rpc --op specs.refresh`
+- initialization or scaffold refresh paths that regenerate `.decapod/generated/specs/*.md`
+
+Refresh output requirements:
+- Preserve hand-maintained epistemic custody fields where possible.
+- Blend repo context into the existing canonical spec files.
+- Update `.decapod/generated/specs/.manifest.json` after writing files.
+- Avoid adding parallel project-state or architecture-survey documents outside the canonical spec set.
+
 ## Validation Decision Tree
 ```mermaid
 flowchart TD

@@ -115,8 +115,9 @@
 
   environment.systemPackages = with pkgs; [
     nodejs
-    rustc
-    cargo
+    # The Rust toolchain is pinned in rust-toolchain.toml and installed by
+    # Home Manager via rustup, so clippy/rustfmt stay matched to rustc.
+    rustup
     cargo-binstall
     go
     python3

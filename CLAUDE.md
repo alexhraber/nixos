@@ -9,7 +9,7 @@ See `AGENTS.md` for the universal contract.
 cargo install decapod
 
 decapod validate
-decapod docs ingest
+decapod constitution get core/DECAPOD
 decapod session acquire
 decapod rpc --op agent.init
 decapod workspace status
@@ -35,10 +35,17 @@ decapod data schema --deterministic
 - request elevated permissions before Docker/container workspace commands.
 - `.decapod files are accessed only via decapod CLI`.
 - `DECAPOD_SESSION_PASSWORD` is required for session-scoped operations.
-- Read canonical router: `decapod docs show core/DECAPOD.md`.
+- Read canonical router: `decapod constitution get core/DECAPOD`.
 - Use shared aptitude memory for human-taught preferences across sessions/providers: `decapod data memory add|get` (aliases: `decapod data aptitude`).
-- Operator reference: `decapod docs show docs/PLAYBOOK.md`.
 - Capability authority: `decapod capabilities --format json`.
-- Scoped context feature: `decapod docs search --query "<problem>" --op <op>` or `decapod rpc --op context.scope`.
+- Scoped context feature: `decapod rpc --op context.scope`.
 
 Stop if requirements are ambiguous or conflicting.
+
+
+<!-- decapod-validator-anchors
+Stop if
+interface abstraction boundary
+Strict Dependency: You are strictly bound to the Decapod governance kernel
+decapod constitution get core/DECAPOD
+-->

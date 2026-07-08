@@ -8,6 +8,9 @@
 - [ ] Rollback plan validated.
 - [ ] Capacity guardrails documented.
 
+## Deployment Model
+Describe the operational runtime model, scheduling, and system deployment architecture.
+
 ## Service Level Objectives
 | SLI | SLO Target | Measurement Window | Owner |
 |---|---|---|---|
@@ -29,42 +32,47 @@
 - Dependency health:
 - Synthetic transaction:
 
-## Alerting and Runbooks
-| Alert | Severity | Runbook Link | Escalation |
-|---|---|---|---|
-| API error rate spike | Sev2 | TBD | App on-call |
-| Persistent dependency timeout | Sev1 | TBD | App + platform |
-| Validation gate outage | Sev2 | TBD | Maintainers |
-
 ## Incident Response
-- Incident commander model:
-- Communication channels:
-- Postmortem SLA:
-- Corrective action tracking:
+- Detection:
+- Triage:
+- Mitigation:
+- Communication:
+- Post-mortem:
 
-## Structured Logging
-- Use structured logging (pino/winston) with request_id, actor, latency_ms, and error_code fields.
-
-## Severity Definitions
-| Severity | Definition | Response Time |
-|---|---|---|
-| Sev1 | Production outage or data integrity risk | Immediate |
-| Sev2 | Major functionality impaired | 30 minutes |
-| Sev3 | Minor degradation | Next business day |
-
-## Deployment Strategy
-- Primary strategy:
-- Change validation process:
-- Rollback and forward-fix policy:
-
-## Environment Configuration
-| Variable | Purpose | Default | Secret |
-|---|---|---|---|
-| APP_ENV | runtime environment | dev | no |
-| LOG_LEVEL | observability verbosity | info | no |
-| API_TOKEN | external auth | none | yes |
+## Rollout Strategy
+- Blue/green deployment:
+- Canary release:
+- Rolling update:
+- Feature flags:
 
 ## Capacity Planning
-- Peak request assumption:
-- Storage growth model:
-- Queue/worker headroom:
+- Traffic patterns:
+- Resource utilization:
+- Scaling triggers:
+
+## Logging
+Use structured logging (pino/winston) with request_id, actor, latency_ms, and error_code fields.
+
+## Secrets Management
+| Secret | Source | Rotation | Consumer |
+|---|---|---|---|
+| External service auth material | managed runtime configuration | periodic | runtime services |
+| Artifact signing material | managed signing service/local secure store | periodic | release pipeline |
+
+## Security Testing
+| Test Type | Cadence | Tooling |
+|---|---|---|
+| SAST | each PR | language linters/scanners |
+| Dependency scan | each PR + weekly | supply-chain tools |
+| DAST/pentest | scheduled | external/internal |
+
+## Compliance and Audit
+- Regulatory scope:
+- Audit evidence location:
+- Exception process:
+
+## Pre-Promotion Security Checklist
+- [ ] Threat model updated for changed surfaces.
+- [ ] Auth/authz tests pass.
+- [ ] Dependency vulnerability scan reviewed.
+- [ ] No unresolved critical/high security findings.

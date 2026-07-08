@@ -3,10 +3,32 @@
 ## Direction
 Composable repository architecture with explicit boundaries and proof-backed delivery invariants.
 
+## What This Project Is
+nixos is a to be confirmed project built using to be confirmed.
+Composable repository architecture with explicit boundaries and proof-backed delivery invariants.
+
+Architectural principles:
+- **Simplicity**: Keep components focused and reusable.
+- **Modularity**: Clearly defined interface boundaries and dependency separation.
+- **Reliability**: Graceful failure handling and thorough verification.
+
 ## Current Facts
 - Runtime/languages: to be confirmed
 - Detected surfaces/framework hints: to be confirmed
 - Product type: to be confirmed
+
+## Architecture Map
+This project's architecture consists of the following key layers/directories:
+- `src/`: Main source directory containing primary logic.
+- `tests/`: Integration and unit test suite.
+
+## Data Flows
+- Inbound request/command parses and validates at the entrypoint.
+- Core runtime handles business logic and initiates queries or state changes.
+- Storage adapter reads or writes data to the underlying persistence layers.
+
+## Strongest Existing Primitives
+- Define the strongest existing primitives in the codebase (e.g., helper utilities, base controllers, data access layers).
 
 ## Topology
 ```text
@@ -16,11 +38,9 @@ Client -> API Gateway -> Service Core -> Worker Queue -> Datastores
 ## Store Boundaries
 ```mermaid
 flowchart LR
-  I[Inbound Requests] --> C[Core Runtime]
+  I[Inbound Requests] --> C[Core Logic]
   C --> W[(Write Store)]
   C --> R[(Read Store)]
-  C --> E[External Dependency]
-  E --> DLQ[(DLQ / Retry Queue)]
 ```
 
 ## Happy Path Sequence
@@ -32,12 +52,12 @@ Client request -> API validation -> domain execution -> persistence -> response 
 ```mermaid
 sequenceDiagram
   participant Client
-  participant API
-  participant Upstream
-  Client->>API: Request
-  API->>Upstream: Call with timeout budget
-  Upstream--xAPI: Timeout / failure
-  API-->>Client: Typed error + retry guidance + trace_id
+  participant Service
+  participant Store
+  Client->>Service: Request
+  Service->>Store: Database Query
+  Store--xService: Error/Timeout
+  Service-->>Client: Typed Error / Recovery Instructions
 ```
 
 ## Execution Path

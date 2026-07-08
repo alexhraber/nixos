@@ -3,6 +3,14 @@
 ## Product Outcome
 - NixOS system configuration for `cube`.
 
+## What This Project Is
+nixos is a not classified yet project built using not detected yet.
+NixOS system configuration for `cube`.
+
+Key operating facts:
+- **Primary languages**: not detected yet
+- **Detected surfaces**: not detected yet
+
 ## Product View
 ```mermaid
 flowchart LR
@@ -22,8 +30,8 @@ flowchart LR
 | Area | In Scope | Proof Surface |
 |---|---|---|
 | Core workflow | Define a concrete user-visible workflow | Acceptance criteria + tests |
-| Data contracts | Document canonical inputs/outputs | `INTERFACES.md` and schema checks |
-| Delivery quality | Block promotion on broken proof surfaces | `VALIDATION.md` blocking gates |
+| Data contracts | Document canonical inputs/outputs | [INTERFACES.md](./INTERFACES.md) and schema checks |
+| Delivery quality | Block promotion on broken proof surfaces | [VALIDATION.md](./VALIDATION.md) blocking gates |
 
 ## Non-Goals (Falsifiable)
 | Non-goal | How to falsify |
@@ -42,6 +50,33 @@ flowchart LR
 - [ ] Non-functional targets are met (latency, reliability, cost, etc.).
 - [ ] Validation gates pass and artifacts are attached.
 - [ ] Repository test/lint/typecheck commands are defined and wired into CI.
+
+## Epistemic Custody Fields
+
+### Active Assumptions
+- [ ] List any assumptions made to proceed.
+- [ ] Flag assumptions that require future verification.
+
+### Confidence & Risk Level
+- **Confidence**: Low/Medium/High (Rationale: )
+- **Risk**: Low/Medium/High (Impact of wrong assumptions: )
+
+### Measured vs Inferred Facts
+| Fact | Source (Provenance) | Type (Measured/Inferred) |
+|---|---|---|
+| | | |
+
+### Unresolved Contradictions
+- [ ] List any evidence that conflicts with current assumptions or intent.
+
+### Deferred Questions
+- [ ] Questions to be answered later.
+
+### Stop Conditions
+- [ ] Explicit conditions under which the agent should stop and ask for help.
+
+### Proof Required Before Completion
+- [ ] Specific evidence needed to prove the outcome is met.
 
 ## Tradeoffs Register
 | Decision | Benefit | Cost | Review Trigger |

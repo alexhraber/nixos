@@ -5,6 +5,13 @@
 - Every mutating interface defines idempotency semantics.
 - Every failure path maps to a typed, documented error code.
 
+## Generated Contract Depth
+Generated interface specs should include:
+- API/CLI contracts with request/response schemas.
+- Read/write ownership for each storage path.
+- Idempotency and retry behavior for mutations.
+- Typed failure classes and recovery instructions.
+
 ## API / RPC Contracts
 | Interface | Method | Request Schema | Response Schema | Errors | Idempotency |
 |---|---|---|---|---|---|
