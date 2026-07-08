@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./disk-guardrails.nix
     ./hardware-configuration.nix
     ./greeter.nix
     <home-manager/nixos>
@@ -15,49 +14,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.plymouth.enable = true;
   boot.plymouth.theme = "breeze";
-
-  # Disk-pressure guardrails.
-  #
-  # min-free/max-free make Nix attempt garbage collection before the store
-  # drives the filesystem into the danger zone again.
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 14d";
-    };
-
-    optimise.automatic = true;
-
-    settings = {
-      auto-optimise-store = true;
-
-      # 10 GiB minimum free; collect toward 30 GiB when pressure appears.
-      min-free = 10737418240;
-      max-free = 32212254720;
-
-      keep-outputs = false;
-      keep-derivations = false;
-    };
-  };
-
-  # Keep persistent journals bounded. This prevents journald from eating
-  # unbounded disk and reduces blast radius if journal files corrupt again.
-  services.journald.extraConfig = ''
-    SystemMaxUse=1G
-    SystemKeepFree=8G
-    RuntimeMaxUse=512M
-    MaxRetentionSec=14day
-    Compress=yes
-  '';
-
-  # Weekly online btrfs scrub. This checks data/metadata checksums and reports
-  # problems early. It is not a destructive repair operation.
-  services.btrfs.autoScrub = {
-    enable = true;
-    interval = "weekly";
-    fileSystems = [ "/" ];
-  };
 
   console = {
     earlySetup = true;
@@ -117,7 +73,6 @@
     nodejs
     rustc
     cargo
-    cargo-binstall
     go
     python3
 

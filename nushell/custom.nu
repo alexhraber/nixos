@@ -1,6 +1,7 @@
 # /etc/nixos/nushell/custom.nu
 
 $env.PATH = ($env.PATH | prepend [
+  $"($env.HOME)/.rustup/toolchains/1.96.1-x86_64-unknown-linux-gnu/bin"
   $"($env.HOME)/.opencode/bin"
   $"($env.HOME)/.local/bin"
   $"($env.HOME)/.npm-global/bin"

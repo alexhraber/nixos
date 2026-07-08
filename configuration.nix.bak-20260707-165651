@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./disk-guardrails.nix
     ./hardware-configuration.nix
     ./greeter.nix
     <home-manager/nixos>
@@ -117,7 +116,6 @@
     nodejs
     rustc
     cargo
-    cargo-binstall
     go
     python3
 
