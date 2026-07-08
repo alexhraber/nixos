@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Manage Rust toolchain declaratively",
+  "intent": "Move snowflake Rust formatter and linter tooling out of the user Nix profile and into repo-managed NixOS/Home Manager configuration.",
+  "state": "APPROVED",
+  "todo_ids": [
+    "code_01kx1kj672z33151"
+  ],
+  "proof_hooks": [
+    "nix-env -q shows an empty user profile",
+    "nixos-rebuild dry-build succeeds",
+    "decapod validate passes"
+  ],
+  "unknowns": [],
+  "human_questions": [],
+  "stop_conditions": [],
+  "unresolved_contradictions": [],
+  "deferred_questions": [],
+  "constraints": {
+    "forbidden_paths": [],
+    "file_touch_budget": null
+  },
+  "updated_at": "1783539800Z"
+}
