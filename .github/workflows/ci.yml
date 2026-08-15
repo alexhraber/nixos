@@ -43,6 +43,7 @@ jobs:
         run: |
           nix-instantiate '<nixpkgs/nixos>' -A system \
             -I nixos-config=./configuration.nix \
+            -I home-manager="$HOME/.nix-defexpr/channels/home-manager" \
             --show-trace
           echo "✅ System derivation evaluates cleanly"
         timeout-minutes: 15

@@ -65,7 +65,7 @@ These files are the project-local contract for humans and agents.
 
 ## Codebase Attestation
 
-- Repository signal fingerprint: `6cf51a5f91cb1302bae833bbcf59573c7a0de7188e1ffda0def84ceef9032985`
+- Repository signal fingerprint: `8a50fedbcd13d23b80091eb2c6b4cc60b5aa30ce38384d8863d81c2c717b13a0`
 - Significant implementation surfaces: `.github/` (2 files), `README.md/` (1 files)
 - Refreshed from the current codebase by `decapod specs.refresh`
 <!-- decapod:codebase-attestation:end -->
