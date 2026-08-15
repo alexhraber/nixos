@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "title": "Update declarative tmux settings and project metadata",
-  "intent": "Add tmux extended-keys to the Home Manager declaration, add the requested Decapod badge to README.md, carry the user-supplied configuration.nix additions into this PR, and repair the NixOS CI workflow so its Home Manager channel is available during evaluation.",
+  "intent": "Add tmux extended-keys to the Home Manager declaration, add the requested Decapod badge to README.md, carry the user-supplied configuration.nix additions into this PR, repair the NixOS CI workflow so its Home Manager channel is available during evaluation, and update the Hyprlock size value for current Home Manager compatibility.",
   "state": "APPROVED",
   "todo_ids": [
     "docs_01m03gwcwkzecncg"
@@ -21,5 +21,5 @@
     "file_touch_budget": 20
   },
   "phases": [],
-  "updated_at": "1786827011Z"
+  "updated_at": "1786827528Z"
 }
