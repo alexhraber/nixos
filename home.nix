@@ -705,6 +705,8 @@ in
       }
     ];
     extraConfig = ''
+      set -g extended-keys on
+
       # sessionx keybinding
       set -g @sessionx-bind "x"
 

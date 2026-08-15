@@ -1,5 +1,7 @@
 # nixos
 
+[![🦀 Decapod](https://img.shields.io/badge/🦀%20Decapod-v0.99.4-dc2626)](https://github.com/DecapodLabs/decapod)
+
 NixOS system configuration for `cube`.
 
 This repository is intended to live at:
