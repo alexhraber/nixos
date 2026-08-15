@@ -1,0 +1,317 @@
+{ config, pkgs, lib, ... }:
+
+{
+  imports = [
+    ./disk-guardrails.nix
+    ./hardware-configuration.nix
+    ./greeter.nix
+    <home-manager/nixos>
+  ];
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.consoleMode = "1";
+  boot.loader.systemd-boot.editor = false;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.plymouth.enable = true;
+  boot.plymouth.theme = "breeze";
+
+  # Disk-pressure guardrails.
+  #
+  # min-free/max-free make Nix attempt garbage collection before the store
+  # drives the filesystem into the danger zone again.
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+
+    optimise.automatic = true;
+
+    settings = {
+      auto-optimise-store = true;
+
+      # 10 GiB minimum free; collect toward 30 GiB when pressure appears.
+      min-free = 10737418240;
+      max-free = 32212254720;
+
+      keep-outputs = false;
+      keep-derivations = false;
+    };
+  };
+
+  # Keep persistent journals bounded. This prevents journald from eating
+  # unbounded disk and reduces blast radius if journal files corrupt again.
+  services.journald.extraConfig = ''
+    SystemMaxUse=1G
+    SystemKeepFree=8G
+    RuntimeMaxUse=512M
+    MaxRetentionSec=14day
+    Compress=yes
+  '';
+
+  # Weekly online btrfs scrub. This checks data/metadata checksums and reports
+  # problems early. It is not a destructive repair operation.
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/" ];
+  };
+
+  console = {
+    earlySetup = true;
+    font = "${pkgs.kbd}/share/consolefonts/LatGrkCyr-12x22.psfu.gz";
+    packages = [ pkgs.kbd ];
+    colors = [
+      "040814"
+      "7c5cff"
+      "42c7ff"
+      "a9d7ff"
+      "2a3447"
+      "9f7cff"
+      "6be3ff"
+      "cfe7ff"
+      "0b1220"
+      "a78bfa"
+      "67e8f9"
+      "e8f6ff"
+      "3b82f6"
+      "c084fc"
+      "7dd3fc"
+      "f8fbff"
+    ];
+  };
+
+  networking.hostName = "cube";
+  time.timeZone = "America/Los_Angeles";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  services.xserver.enable = false;
+
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  virtualisation.libvirtd.enable = true;
+
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
+
+  services.k3s = {
+    enable = true;
+    role = "server";
+  };
+
+  networking.firewall.allowedTCPPorts =
+  [ 6443 8080 ];
+
+  environment.systemPackages = with pkgs; [
+    nodejs
+    # The Rust toolchain is pinned in rust-toolchain.toml and installed by
+    # Home Manager via rustup, so clippy/rustfmt stay matched to rustc.
+    rustup
+    cargo-binstall
+    go
+    python3
+
+    ghostty
+    zed-editor
+    chromium
+    nautilus
+    wofi
+    waybar
+    mako
+    swaybg
+    swaynotificationcenter
+    hyprlock
+    hypridle
+    wl-clipboard
+    grim
+    slurp
+    playerctl
+    pavucontrol
+    networkmanagerapplet
+    brightnessctl
+    nwg-look
+    gcc
+    openssl
+    pkg-config
+    evince
+    ddd
+    gnumake
+    texlive.combined.scheme-full
+    imv
+    postgresql
+    sqlite
+
+    curl
+    wget
+    dig
+    traceroute
+    mtr
+    nmap
+    tcpdump
+    ethtool
+    iperf3
+    bind
+    dnsutils
+    inetutils
+    usbutils
+    pciutils
+    lm_sensors
+    iftop
+
+    git
+    gh
+    gnupg
+    pinentry-curses
+    vim
+    neovim
+    tmux
+    htop
+    btop
+    jq
+    yq-go
+    ripgrep
+    fd
+    bat
+    eza
+    fzf
+    tree
+    file
+    which
+    unzip
+    zip
+    gnutar
+    rsync
+    lsof
+    bubblewrap
+    clang
+    llvm
+
+    nushell
+    starship
+    zoxide
+    fastfetch
+
+    ffmpeg
+    obs-studio
+
+    podman
+    podman-compose
+    kubectl
+    k3s
+
+    bibata-cursors
+    source-code-pro
+    adwaita-icon-theme
+    gnome-themes-extra
+
+    uv
+    python312
+    deno
+    jupyter
+  ];
+
+  fonts.packages = with pkgs; [
+    source-code-pro
+    nerd-fonts.symbols-only
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    font-awesome
+    adwaita-icon-theme
+  ];
+
+  security.polkit.enable = true;
+  services.dbus.enable = true;
+  programs.dconf.enable = true;
+  programs.nix-ld.enable = true;
+  programs.ssh.startAgent = true;
+
+  programs.ssh.extraConfig = ''
+    Host github.com
+      HostName github.com
+      User git
+      IdentityFile ~/.ssh/github_ed25519
+      IdentitiesOnly yes
+      AddKeysToAgent yes
+  '';
+
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    openssl
+    curl
+    git
+    libgcc
+    sqlite
+  ];
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = with pkgs; [
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
+  ];
+
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    jack.enable = true;
+  };
+
+  security.rtkit.enable = true;
+
+  security.sudo.extraRules = [
+    {
+      users = [ "arx" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/iftop";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  users.users.arx = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" "kvm" "libvirtd" ];
+    shell = pkgs.nushell;
+  };
+
+  fileSystems."/workspace/src" = {
+    device = "/home/arx/src";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "bak";
+  home-manager.users.arx = import ./home.nix;
+
+  system.stateVersion = "25.11";
+}
