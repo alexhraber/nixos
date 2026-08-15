@@ -705,6 +705,8 @@ in
       }
     ];
     extraConfig = ''
+      set -g extended-keys on
+
       # sessionx keybinding
       set -g @sessionx-bind "x"
 
@@ -816,7 +818,7 @@ in
       input-field = [
         {
           monitor = "";
-          size = { width = 580; height = 80; };
+          size = "580, 80";
           position = "0, -60";
           halign = "center";
           valign = "center";

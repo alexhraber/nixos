@@ -1,24 +1,25 @@
 {
   "schema_version": "1.0.0",
-  "title": "Manage Rust toolchain declaratively",
-  "intent": "Move snowflake Rust formatter and linter tooling out of the user Nix profile and into repo-managed NixOS/Home Manager configuration.",
+  "title": "Update declarative tmux settings and project metadata",
+  "intent": "Add tmux extended-keys to the Home Manager declaration, add the requested Decapod badge to README.md, carry the user-supplied configuration.nix additions into this PR, repair the NixOS CI workflow so its Home Manager channel is available during evaluation, and update the Hyprlock size value for current Home Manager compatibility.",
   "state": "APPROVED",
   "todo_ids": [
-    "code_01kx1kj672z33151"
+    "docs_01m03gwcwkzecncg"
   ],
   "proof_hooks": [
-    "nix-env -q shows an empty user profile",
-    "nixos-rebuild dry-build succeeds",
-    "decapod validate passes"
+    "git diff --check"
   ],
   "unknowns": [],
   "human_questions": [],
-  "stop_conditions": [],
+  "stop_conditions": [
+    "Do not publish if Nix parsing or Decapod validation fails."
+  ],
   "unresolved_contradictions": [],
   "deferred_questions": [],
   "constraints": {
     "forbidden_paths": [],
-    "file_touch_budget": null
+    "file_touch_budget": 20
   },
-  "updated_at": "1783539800Z"
+  "phases": [],
+  "updated_at": "1786827528Z"
 }

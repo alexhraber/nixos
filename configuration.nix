@@ -142,9 +142,14 @@
     brightnessctl
     nwg-look
     gcc
+    openssl
     pkg-config
     evince
     ddd
+    gnumake
+    texlive.combined.scheme-full
+    imv
+    postgresql
     sqlite
 
     curl
@@ -295,6 +300,12 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "podman" "kvm" "libvirtd" ];
     shell = pkgs.nushell;
+  };
+
+  fileSystems."/workspace/src" = {
+    device = "/home/arx/src";
+    fsType = "none";
+    options = [ "bind" ];
   };
 
   home-manager.useGlobalPkgs = true;
